@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChickenItemActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_chickenbefore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="30sp"
+            android:layout_centerHorizontal="true"
+            android:text="Before:" />
+
+        <TextView
+            android:id="@+id/tv_chickenafter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_marginTop="310dp"
+            android:layout_centerHorizontal="true"
+            android:text="After:" />
+
+        <ImageView
+            android:id="@+id/iv_chickenurl"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="106dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="106dp" />
+
+        <ImageView
+            android:id="@+id/iv_chickenpredict"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_below="@+id/iv_chickenurl"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="106dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="106dp" />
+
+        <TextView
+            android:id="@+id/tv_chickenid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@id/iv_chickenpredict"
+            android:layout_centerHorizontal="true"
+            android:text="Text 1" />
+
+        <TextView
+            android:id="@+id/tv_chickenuuid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_below="@id/tv_chickenid"
+            android:layout_centerHorizontal="true"
+            android:text="Text 2" />
+
+        <TextView
+            android:id="@+id/tv_chickenlabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_below="@id/tv_chickenuuid"
+            android:layout_centerHorizontal="true"
+            android:text="Text 3" />
+
+        <TextView
+            android:id="@+id/tv_chickenchicken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_below="@id/tv_chickenlabel"
+            android:layout_centerHorizontal="true"
+            android:text="Text 4" />
+
+        <TextView
+            android:id="@+id/tv_chickensickchicken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_below="@id/tv_chickenchicken"
+            android:layout_centerHorizontal="true"
+            android:text="Text 5" />
+
+        <TextView
+            android:id="@+id/tv_chickenother"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_below="@id/tv_chickensickchicken"
+            android:layout_centerHorizontal="true"
+            android:text="Text 6" />
+
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
