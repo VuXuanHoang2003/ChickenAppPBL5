@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".CalendarActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChickenItemActivity"
             android:exported="false" />
         <activity

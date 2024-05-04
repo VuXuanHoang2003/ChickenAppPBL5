@@ -8,29 +8,29 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="280dp"
-        android:layout_margin="12dp"
+        android:layout_height="260dp"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="5dp"
             android:orientation="vertical"
-            android:backgroundTint="@color/black">
+            android:backgroundTint="@color/black"
+            android:background="@drawable/rounded_background">
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:id="@+id/iv_chickenImage"
                 android:scaleType="fitXY"
                 android:clipToOutline="true"
-                android:background="@drawable/rounded_background"
+                app:cardCornerRadius="16dp"
                 ></ImageView>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="8dp">
+            android:layout_margin="5dp">
 
             <TextView
                 style="@style/TEXT"
@@ -43,7 +43,7 @@
                 android:maxLines="2"
                 android:text="Chicken Name"
                 android:textColor="@color/black"
-                android:textSize="15dp"
+                android:textSize="18dp"
                 android:textStyle="bold"></TextView>
         </LinearLayout>
     </LinearLayout>

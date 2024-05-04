@@ -203,7 +203,11 @@ public class ChartActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId())
                 {
-                    case R.id.home:
+                    case R.id.calendar:
+                        startActivity(new Intent(getApplicationContext(),CalendarActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.image:
                         startActivity(new Intent(getApplicationContext(),MainActivity.class));
                         overridePendingTransition(0,0);
                         return true;

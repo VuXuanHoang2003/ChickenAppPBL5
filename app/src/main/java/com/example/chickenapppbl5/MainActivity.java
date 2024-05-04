@@ -94,17 +94,21 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
 
 
         bottomNavigationView = findViewById(R.id.bottom_navigator);
-        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setSelectedItemId(R.id.image);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId())
                 {
+                    case R.id.calendar:
+                        startActivity(new Intent(getApplicationContext(),CalendarActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
                     case R.id.chart:
                         startActivity(new Intent(getApplicationContext(),ChartActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.home:
+                    case R.id.image:
                         return true;
                     case R.id.settings:
                         startActivity(new Intent(getApplicationContext(),SettingsActivity.class));

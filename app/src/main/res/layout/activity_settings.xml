@@ -6,20 +6,93 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:layout_height="match_parent"
-        android:text="Settings Activity" />
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigator"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/lldarkmode"
+        android:background="@drawable/rounded_background"
+        >
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/listImage"
+            android:src="@drawable/ic_dark"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"/>
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="30dp"
+            android:id="@+id/listName"
+            android:text="Enable/Disable Dark Mode"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/listImage"/>
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/switcher"
+            android:layout_gravity="center" />
+    </LinearLayout>
+<!--    <androidx.cardview.widget.CardView-->
+<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--        android:layout_marginStart="12dp"-->
+<!--        android:layout_marginEnd="12dp"-->
+<!--        android:layout_marginVertical="10dp"-->
+<!--        android:layout_marginHorizontal="10dp"-->
+<!--        app:cardCornerRadius="20dp"-->
+<!--        app:cardElevation="8dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            <com.google.android.material.imageview.ShapeableImageView-->
+<!--                android:layout_width="60dp"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:id="@+id/listImage"-->
+<!--                android:src="@drawable/ic_dark"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"/>-->
+<!--            <TextView-->
+<!--                android:layout_width="250dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:id="@+id/listName"-->
+<!--                android:text="Enable/Disable Dark Mode"-->
+<!--                android:textColor="@color/lavender"-->
+<!--                android:textSize="20sp"-->
+<!--                android:layout_marginTop="25dp"-->
+<!--                android:layout_marginStart="30dp"-->
+<!--                android:layout_toEndOf="@id/listImage"/>-->
+<!--        </RelativeLayout>-->
+<!--    </androidx.cardview.widget.CardView>-->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigator"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-50dp"
+        app:itemIconTint="@color/white"
         app:menu="@menu/bottom_nav_menu"
-        />
+        app:itemTextColor="@color/white"
+        android:background="@color/black"
+        android:paddingTop="0dp"
+        android:layout_marginBottom="-50dp"
+        >
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
 </RelativeLayout>
