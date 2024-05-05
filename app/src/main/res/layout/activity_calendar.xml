@@ -36,7 +36,9 @@
             android:background="@null"
             android:textStyle="bold"
             android:onClick="previousMonthAction"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            style="@style/BUTTON"
+            />
 
         <TextView
             android:id="@+id/monthYearTV"
@@ -46,7 +48,8 @@
             android:text="Feb 2021"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            style="@style/TEXT"/>
 
         <Button
             android:layout_width="0dp"
@@ -57,7 +60,8 @@
             android:background="@null"
             android:textStyle="bold"
             android:onClick="nextMonthAction"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            style="@style/BUTTON"/>
 
     </LinearLayout>
 
@@ -108,7 +112,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="THUR"
+            android:text="THU"
             android:textColor="@color/gray"
             android:textAlignment="center"
             android:textSize="16sp"/>
@@ -139,7 +143,9 @@
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ll2"/>
+        android:layout_below="@+id/ll2"
+
+        />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

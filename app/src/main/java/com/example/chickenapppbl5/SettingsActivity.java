@@ -48,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
         isDarkMode = sharedPreferences.getBoolean("dark", false);
         if (isDarkMode) {
             switcher.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         switcher.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,10 +82,14 @@ public class SettingsActivity extends AppCompatActivity {
                         return true;
                     case R.id.settings:
                         return true;
-                    case R.id.image:
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    case R.id.notifications:
+                        startActivity(new Intent(getApplicationContext(),NotificationsActivity.class));
                         overridePendingTransition(0,0);
                         return true;
+//                    case R.id.image:
+//                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//                        overridePendingTransition(0,0);
+//                        return true;
                 }
                 return false;
             }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1013116381788",
+    "project_id": "chickenapppbl5",
+    "storage_bucket": "chickenapppbl5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013116381788:android:a24b0f82a22d3e5744d499",
+        "android_client_info": {
+          "package_name": "com.example.chickenapppbl5"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYJ_9OeYEHcZfWt0VqOafUFDgMe-cCxgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

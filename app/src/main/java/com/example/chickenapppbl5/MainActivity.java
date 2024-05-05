@@ -55,60 +55,64 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        binding.rvChickenApp.setLayoutManager(new GridLayoutManager(this,2));
-        chickenList=new ArrayList<>();
-        chickensAdapter=new ChickenAdapter(chickenList,this);
-        binding.rvChickenApp.setAdapter(chickensAdapter);
-        apiService=new ChickenApiService();
-        apiService.getChickens()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<List<ChickenBreed>>() {
-                    @Override
-                    public void onSuccess(@NonNull List<ChickenBreed> chickenBreeds) {
-                        Log.d("DEBUG","success");
-                        for(ChickenBreed chicken: chickenBreeds){
-                            ChickenBreed i= new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getLabels(), chicken.getChicken(), chicken.getSick_chicken(), chicken.getOther());
-                            chickenList.add(i);
-                            Log.d("DEBUG",i.getUuid());
-                            chickensAdapter.notifyDataSetChanged();
-                        }
-                        AsyncTask.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                appDatabase = AppDatabase.getInstance(getApplicationContext());
-                                ChickenDAO = appDatabase.contactDAO();
-                                for(ChickenBreed chicken:chickenList){
-                                    ChickenBreed i = new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getLabels(), chicken.getChicken(), chicken.getSick_chicken(), chicken.getOther());
-                                    ChickenDAO.insert(i);
-                                }
-                            }
-                        });
-                    }
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d("DEBUG","Fail"+e.getMessage());
-                    }
-                });
+//        binding.rvChickenApp.setLayoutManager(new GridLayoutManager(this,2));
+//        chickenList=new ArrayList<>();
+//        chickensAdapter=new ChickenAdapter(chickenList,this);
+//        binding.rvChickenApp.setAdapter(chickensAdapter);
+//        apiService=new ChickenApiService();
+//        apiService.getChickens()
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(new DisposableSingleObserver<List<ChickenBreed>>() {
+//                    @Override
+//                    public void onSuccess(@NonNull List<ChickenBreed> chickenBreeds) {
+//                        Log.d("DEBUG","success");
+//                        for(ChickenBreed chicken: chickenBreeds){
+//                            ChickenBreed i= new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getLabels(), chicken.getChicken(), chicken.getSick_chicken(), chicken.getOther());
+//                            chickenList.add(i);
+//                            Log.d("DEBUG",i.getUuid());
+//                            chickensAdapter.notifyDataSetChanged();
+//                        }
+//                        AsyncTask.execute(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                appDatabase = AppDatabase.getInstance(getApplicationContext());
+//                                ChickenDAO = appDatabase.contactDAO();
+//                                for(ChickenBreed chicken:chickenList){
+//                                    ChickenBreed i = new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getLabels(), chicken.getChicken(), chicken.getSick_chicken(), chicken.getOther());
+//                                    ChickenDAO.insert(i);
+//                                }
+//                            }
+//                        });
+//                    }
+//                    @Override
+//                    public void onError(@NonNull Throwable e) {
+//                        Log.d("DEBUG","Fail"+e.getMessage());
+//                    }
+//                });
 
 
 
         bottomNavigationView = findViewById(R.id.bottom_navigator);
-        bottomNavigationView.setSelectedItemId(R.id.image);
+        bottomNavigationView.setSelectedItemId(R.id.calendar);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId())
                 {
                     case R.id.calendar:
-                        startActivity(new Intent(getApplicationContext(),CalendarActivity.class));
-                        overridePendingTransition(0,0);
+//                        startActivity(new Intent(getApplicationContext(),CalendarActivity.class));
+//                        overridePendingTransition(0,0);
                         return true;
                     case R.id.chart:
                         startActivity(new Intent(getApplicationContext(),ChartActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.image:
+//                    case R.id.image:
+//                        return true;
+                    case R.id.notifications:
+                        startActivity(new Intent(getApplicationContext(),NotificationsActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.settings:
                         startActivity(new Intent(getApplicationContext(),SettingsActivity.class));

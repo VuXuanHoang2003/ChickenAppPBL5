@@ -207,11 +207,15 @@ public class ChartActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(),CalendarActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.image:
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
+//                    case R.id.image:
+//                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//                        overridePendingTransition(0,0);
+//                        return true;
                     case R.id.chart:
+                        return true;
+                    case R.id.notifications:
+                        startActivity(new Intent(getApplicationContext(),NotificationsActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.settings:
                         startActivity(new Intent(getApplicationContext(),SettingsActivity.class));

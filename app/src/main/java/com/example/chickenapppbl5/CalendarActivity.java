@@ -3,6 +3,7 @@ package com.example.chickenapppbl5;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -71,10 +72,14 @@ public class CalendarActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.image:
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    case R.id.notifications:
+                        startActivity(new Intent(getApplicationContext(),NotificationsActivity.class));
                         overridePendingTransition(0,0);
                         return true;
+//                    case R.id.image:
+//                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//                        overridePendingTransition(0,0);
+//                        return true;
                 }
                 return false;
             }
@@ -153,6 +158,10 @@ public class CalendarActivity extends AppCompatActivity {
         {
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            Intent i = new Intent(this, ChickenDayActivity.class);
+            i.putExtra("day", dayText);
+            i.putExtra("month", monthYearFromDate(selectedDate));
+            startActivity(i);
         }
     }
 }
