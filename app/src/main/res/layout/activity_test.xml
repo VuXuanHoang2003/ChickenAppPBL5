@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CalendarActivity">
+    tools:context=".TestActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:layout_below="@+id/title1"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Latest 7 days"
         android:textSize="20dp"
@@ -35,27 +35,15 @@
         android:id="@+id/title2" >
     </TextView>
 
-    <TextView
-        android:id="@+id/tv_monthyear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="May 2024"
-        android:layout_below="@id/btn_opencalendar"
-        android:layout_toEndOf="@+id/title2"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:padding="15dp"
-        android:textAlignment="textEnd"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_calendar7days"
+    <ListView
         android:layout_below="@+id/title2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:layout_margin="10dp"
-        tools:listitem="@layout/list_calendar">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
+        android:id="@+id/listview"
+        android:scrollbars="vertical"
+        android:layout_marginTop="12dp"
+        tools:listitem="@layout/list_calendar"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"/>
+    
 </RelativeLayout>

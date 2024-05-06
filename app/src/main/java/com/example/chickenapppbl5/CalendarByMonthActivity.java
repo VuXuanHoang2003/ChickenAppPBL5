@@ -3,13 +3,14 @@ package com.example.chickenapppbl5;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -18,22 +19,23 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.chickenapppbl5.R;
 import com.example.chickenapppbl5.databinding.ActivityCalendarBinding;
+import com.example.chickenapppbl5.databinding.ActivityCalendarByMonthBinding;
+import com.example.chickenapppbl5.databinding.ActivitySettingsBinding;
 import com.example.chickenapppbl5.viewmodel.CalendarAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
 
-public class CalendarActivity extends AppCompatActivity {
+public class CalendarByMonthActivity extends AppCompatActivity {
 
-    ActivityCalendarBinding binding;
+    ActivityCalendarByMonthBinding binding;
+    BottomNavigationView bottomNavigationView;
+
+
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
@@ -42,7 +44,7 @@ public class CalendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding = ActivityCalendarBinding.inflate(getLayoutInflater());
+        binding = ActivityCalendarByMonthBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -55,19 +57,12 @@ public class CalendarActivity extends AppCompatActivity {
         selectedDate = LocalDate.now();
         setMonthView();
         Intent intent = getIntent();
-        binding.btnOpencalendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(CalendarActivity.this, CalendarByMonthActivity.class);
-                startActivity(i);
-            }
-        });
     }
 
     private void initWidgets()
     {
-        calendarRecyclerView = findViewById(R.id.rv_calendar7days);
-        monthYearText = findViewById(R.id.tv_monthyear);
+        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
+        monthYearText = findViewById(R.id.monthYearTV);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -83,16 +78,28 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private ArrayList<String> daysInMonthArray(LocalDate date) {
+    private ArrayList<String> daysInMonthArray(LocalDate date)
+    {
         ArrayList<String> daysInMonthArray = new ArrayList<>();
-        LocalDate sevenDaysAgo = LocalDate.now().minusDays(7);
+        YearMonth yearMonth = YearMonth.from(date);
 
-        for (int i = 0; i < 7; i++) {
-            LocalDate currentDate = sevenDaysAgo.plusDays(i);
-            daysInMonthArray.add(String.valueOf(currentDate.getDayOfMonth()));
+        int daysInMonth = yearMonth.lengthOfMonth();
+
+        LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
+        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
+
+        for(int i = 1; i <= 42; i++)
+        {
+            if(i <= dayOfWeek || i > daysInMonth + dayOfWeek)
+            {
+                daysInMonthArray.add("");
+            }
+            else
+            {
+                daysInMonthArray.add(String.valueOf(i - dayOfWeek));
+            }
         }
-
-        return daysInMonthArray;
+        return  daysInMonthArray;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -130,5 +137,4 @@ public class CalendarActivity extends AppCompatActivity {
             startActivity(i);
         }
     }
-
 }

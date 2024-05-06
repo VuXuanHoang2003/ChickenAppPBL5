@@ -204,7 +204,7 @@ public class ChartActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.calendar:
-                        startActivity(new Intent(getApplicationContext(),CalendarActivity.class));
+                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
                         overridePendingTransition(0,0);
                         return true;
 //                    case R.id.image:

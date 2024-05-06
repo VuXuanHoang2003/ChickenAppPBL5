@@ -73,7 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.calendar:
-                        startActivity(new Intent(getApplicationContext(),CalendarActivity.class));
+                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.chart:
@@ -92,6 +92,13 @@ public class SettingsActivity extends AppCompatActivity {
 //                        return true;
                 }
                 return false;
+            }
+        });
+        binding.btnOpenactivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SettingsActivity.this, CalendarActivity.class);
+                startActivity(i);
             }
         });
     }

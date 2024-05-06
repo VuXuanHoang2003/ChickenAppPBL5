@@ -79,6 +79,14 @@
 <!--                android:layout_toEndOf="@id/listImage"/>-->
 <!--        </RelativeLayout>-->
 <!--    </androidx.cardview.widget.CardView>-->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Open TestActivity"
+        android:layout_below="@+id/lldarkmode"
+        android:id="@+id/btn_openactivity">
+
+    </Button>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

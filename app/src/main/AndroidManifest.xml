@@ -16,6 +16,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".CalendarByMonthActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailedTestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TestActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChickenDayActivity"
             android:exported="false" />
         <activity

@@ -26,14 +26,14 @@ public class ChickenItemActivity extends AppCompatActivity {
         binding = ActivityChickenItemBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Intent intent = getIntent();
-        Glide.with(this).load(intent.getExtras().getString("url")).into(binding.ivChickenurl);
+        //Glide.with(this).load(intent.getExtras().getString("url")).into(binding.ivChickenurl);
         Glide.with(this).load(intent.getExtras().getString("predict")).into(binding.ivChickenpredict);
-        binding.tvChickenid.setText(intent.getExtras().getString("id"));
-        binding.tvChickenuuid.setText(intent.getExtras().getString("uuid"));
-        binding.tvChickenlabel.setText(intent.getExtras().getString("labels"));
+//        binding.tvChickenid.setText(intent.getExtras().getString("id"));
+//        binding.tvChickenuuid.setText(intent.getExtras().getString("uuid"));
+//        binding.tvChickenlabel.setText(intent.getExtras().getString("labels"));
         binding.tvChickenchicken.setText(intent.getExtras().getString("chicken"));
         binding.tvChickensickchicken.setText(intent.getExtras().getString("sickchicken"));
-        binding.tvChickenother.setText(intent.getExtras().getString("other"));
+//        binding.tvChickenother.setText(intent.getExtras().getString("other"));
     }
     @Override
     public void onBackPressed() {
