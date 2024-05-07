@@ -76,40 +76,6 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
                     showDatePickerDialog();
             }
         });
-//        chickenList=new ArrayList<>();
-//        chickensAdapter=new ChickenAdapter(chickenList,this);
-//        binding.rvChickenApp.setAdapter(chickensAdapter);
-//        apiService=new ChickenApiService();
-//        apiService.getChickens()
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeWith(new DisposableSingleObserver<List<ChickenBreed>>() {
-//                    @Override
-//                    public void onSuccess(@NonNull List<ChickenBreed> chickenBreeds) {
-//                        Log.d("DEBUG","success");
-//                        for(ChickenBreed chicken: chickenBreeds){
-//                            ChickenBreed i= new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getLabels(), chicken.getChicken(), chicken.getSick_chicken(), chicken.getOther());
-//                            chickenList.add(i);
-//                            Log.d("DEBUG",i.getUuid());
-//                            chickensAdapter.notifyDataSetChanged();
-//                        }
-//                        AsyncTask.execute(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                appDatabase = AppDatabase.getInstance(getApplicationContext());
-//                                ChickenDAO = appDatabase.contactDAO();
-//                                for(ChickenBreed chicken:chickenList){
-//                                    ChickenBreed i = new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getLabels(), chicken.getChicken(), chicken.getSick_chicken(), chicken.getOther());
-//                                    ChickenDAO.insert(i);
-//                                }
-//                            }
-//                        });
-//                    }
-//                    @Override
-//                    public void onError(@NonNull Throwable e) {
-//                        Log.d("DEBUG","Fail"+e.getMessage());
-//                    }
-//                });
 
 
 

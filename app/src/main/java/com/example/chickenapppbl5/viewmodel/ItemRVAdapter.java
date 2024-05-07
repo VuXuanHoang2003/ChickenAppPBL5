@@ -1,6 +1,7 @@
 package com.example.chickenapppbl5.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chickenapppbl5.Chicken_Info;
 import com.example.chickenapppbl5.R;
 import com.example.chickenapppbl5.model.ChickenBreed;
 import com.example.chickenapppbl5.model.Day;
@@ -43,6 +45,16 @@ public class ItemRVAdapter extends RecyclerView.Adapter<ItemRVAdapter.ItemViewHo
         }
         holder.imgDay.setImageResource(day.getId());
         holder.tvName.setText(day.getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, Chicken_Info.class);
+                // Nếu bạn muốn chuyển dữ liệu, bạn có thể sử dụng putExtra ở đây
+
+                // Bắt đầu Activity mới
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

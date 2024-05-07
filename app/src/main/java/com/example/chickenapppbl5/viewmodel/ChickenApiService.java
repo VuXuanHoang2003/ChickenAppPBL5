@@ -25,7 +25,7 @@ public class ChickenApiService  {
     public Single<List<ChickenBreed>> getChickens(){
         return api.getChickens();
     }
-    public Single<List<Day>> getDay(){
+    public Single<List<ChickenBreed>> getDay(){
         return api.getDay();
     }
 }
