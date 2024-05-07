@@ -55,10 +55,11 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
                 i.putExtra("uuid", ck.getUuid());
                 i.putExtra("url", ck.getUrl());
                 i.putExtra("predict", ck.getPredict());
+                i.putExtra("infared", ck.getInfared());
+                i.putExtra("time",ck.getTime());
                 i.putExtra("labels", ck.getLabels());
                 i.putExtra("chicken", ck.getChicken());
-                i.putExtra("sickchicken", ck.getSick_chicken());
-                i.putExtra("other", ck.getOther());
+                i.putExtra("non-chicken",ck.getNon_chicken());
                 Log.i("hello", ck.getUuid());
                 Toast.makeText(
                         v.getContext(),

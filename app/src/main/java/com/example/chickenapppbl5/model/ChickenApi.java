@@ -9,4 +9,6 @@ import retrofit2.http.GET;
 public interface ChickenApi {
     @GET("api/image/getall")
     Single<List<ChickenBreed>> getChickens();
+    @GET("api/image/getbytime")
+    Single<List<Day>> getDay();
 }
