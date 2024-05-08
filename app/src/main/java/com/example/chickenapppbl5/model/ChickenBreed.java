@@ -24,6 +24,10 @@ public class ChickenBreed {
     @ColumnInfo()
     private String predict;
 
+    @SerializedName("infared")
+    @ColumnInfo()
+    private String infared;
+
     @SerializedName("labels")
     @ColumnInfo()
     private String labels;
@@ -32,23 +36,34 @@ public class ChickenBreed {
     @ColumnInfo
     private String chicken;
 
-    @SerializedName("sick_chicken")
+    @SerializedName("non-chicken")
     @ColumnInfo
-    private String sick_chicken;
+    private String non_chicken;
+
+    @SerializedName("time")
+    @ColumnInfo
+    private String time;
+
+    @SerializedName("highest_chicken_temp")
+    @ColumnInfo
+    private String hctemp;
 
     @SerializedName("other")
     @ColumnInfo
     private String other;
 
 
-    public ChickenBreed(long id, String uuid, String url, String predict, String labels, String chicken, String sick_chicken, String other) {
+    public ChickenBreed(long id, String uuid, String url, String predict, String infared, String labels, String chicken, String non_chicken,String time, String hctemp, String other) {
         this.id = id;
         this.uuid = uuid;
         this.url = url;
         this.predict = predict;
+        this.infared = infared;
         this.labels = labels;
         this.chicken = chicken;
-        this.sick_chicken = sick_chicken;
+        this.non_chicken = non_chicken;
+        this.time = time;
+        this.hctemp = hctemp;
         this.other = other;
     }
 
@@ -82,6 +97,12 @@ public class ChickenBreed {
     public void setPredict(String predict) {
         this.predict = predict;
     }
+    public String getInfared() {
+        return infared;
+    }
+    public void setInfared(String infared) {
+        this.infared = infared;
+    }
 
     public String getLabels() {
         return labels;
@@ -99,12 +120,28 @@ public class ChickenBreed {
         this.chicken = chicken;
     }
 
-    public String getSick_chicken() {
-        return sick_chicken;
+    public String getNon_chicken() {
+        return non_chicken;
     }
 
-    public void setSick_chicken(String sick_chicken) {
-        this.sick_chicken = sick_chicken;
+    public void setNon_chicken(String non_chicken) {
+        this.non_chicken = non_chicken;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getHctemp() {
+        return hctemp;
+    }
+
+    public void setHctemp(String hctemp) {
+        this.hctemp = hctemp;
     }
 
     public String getOther() {

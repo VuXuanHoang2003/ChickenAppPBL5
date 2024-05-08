@@ -1,15 +1,17 @@
 package com.example.chickenapppbl5;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -18,22 +20,37 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.chickenapppbl5.R;
 import com.example.chickenapppbl5.databinding.ActivityCalendarBinding;
+import com.example.chickenapppbl5.databinding.ActivityMainBinding;
+import com.example.chickenapppbl5.model.AppDatabase;
+import com.example.chickenapppbl5.model.ChickenBreed;
+import com.example.chickenapppbl5.model.ChickenDAO;
+import com.example.chickenapppbl5.viewmodel.Calendar7DaysAdapter;
 import com.example.chickenapppbl5.viewmodel.CalendarAdapter;
+import com.example.chickenapppbl5.viewmodel.ChickenAdapter;
+import com.example.chickenapppbl5.viewmodel.ChickenApiService;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
-public class CalendarActivity extends AppCompatActivity {
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
-    ActivityCalendarBinding binding;
+public class CalendarActivity extends AppCompatActivity implements ChickenAdapter.OnChickenListener{
+
+    BottomNavigationView bottomNavigationView;
+
+    private ChickenApiService apiService;
+    private ChickenAdapter chickensAdapter;
+    private List<ChickenBreed> chickenList;
+    private ActivityCalendarBinding binding;
+    private ChickenDAO ChickenDAO;
+    private AppDatabase appDatabase;
+
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
@@ -43,12 +60,14 @@ public class CalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         binding = ActivityCalendarBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
+        // Set the content view to the inflated layout
+        setContentView(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
         });
 
         initWidgets();
@@ -62,6 +81,7 @@ public class CalendarActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
     }
 
     private void initWidgets()
@@ -76,8 +96,8 @@ public class CalendarActivity extends AppCompatActivity {
         monthYearText.setText(monthYearFromDate(selectedDate));
         ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
 
-        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this::onItemClick);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
+        Calendar7DaysAdapter calendarAdapter = new Calendar7DaysAdapter(daysInMonth, this::onItemClick);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
@@ -87,9 +107,9 @@ public class CalendarActivity extends AppCompatActivity {
         ArrayList<String> daysInMonthArray = new ArrayList<>();
         LocalDate sevenDaysAgo = LocalDate.now().minusDays(7);
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 1; i < 8; i++) {
             LocalDate currentDate = sevenDaysAgo.plusDays(i);
-            daysInMonthArray.add(String.valueOf(currentDate.getDayOfMonth()));
+            daysInMonthArray.add(String.valueOf(currentDate.getDayOfMonth()) + "/" + String.valueOf(currentDate.getMonthValue()) + "/" + String.valueOf(currentDate.getYear()));
         }
 
         return daysInMonthArray;
@@ -122,13 +142,38 @@ public class CalendarActivity extends AppCompatActivity {
     {
         if(!dayText.equals(""))
         {
+            String[] parts = dayText.split("/");
+            dayText = parts[0];
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             Intent i = new Intent(this, ChickenDayActivity.class);
+            // Convert the month to a number
+            int month = selectedDate.getMonthValue();
+            // Toast month
+            Toast.makeText(this, "Month: " + month, Toast.LENGTH_LONG).show();
             i.putExtra("day", dayText);
-            i.putExtra("month", monthYearFromDate(selectedDate));
+            i.putExtra("month", String.valueOf(month));
             startActivity(i);
         }
     }
 
+
+    public void onClick(View view, int position) {
+//        final ChickenBreed ck = chickenList.get(position);
+//        Intent i = new Intent(this, ChickenItemActivity.class);
+//        i.putExtra("id", ck.getId());
+//        i.putExtra("uuid", ck.getUuid());
+//        i.putExtra("image", ck.getUrl());
+//        Log.i("hello", ck.getUuid());
+//        Toast.makeText(
+//                this,
+//                "You clicked " + ck.getUuid(),
+//                Toast.LENGTH_SHORT
+//        );
+//        startActivity(i);
+    }
+    @Override
+    public void onChickenClick(int position) {
+
+    }
 }

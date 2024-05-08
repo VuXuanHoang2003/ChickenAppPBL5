@@ -7,7 +7,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 
 public interface ChickenApi {
-    @GET("api/image/getall")
+    @GET("api/image/getbytime")
     Single<List<ChickenBreed>> getChickens();
     @GET("api/sensor/")
     Single<List<ChickenSensor>> getSensors();

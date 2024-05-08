@@ -32,7 +32,7 @@ public class ListAdapter extends ArrayAdapter<String> {
 
         ImageView listImage = view.findViewById(R.id.listImage);
         TextView listName = view.findViewById(R.id.listName);
-        TextView listTime = view.findViewById(R.id.listTime);
+        //TextView listTime = view.findViewById(R.id.listTime);
 
         listImage.setImageResource(R.drawable.baseline_calendar_month_24);
         listName.setText(listData);

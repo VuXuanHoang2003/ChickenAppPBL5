@@ -28,11 +28,16 @@ public class ChickenItemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //Glide.with(this).load(intent.getExtras().getString("url")).into(binding.ivChickenurl);
         Glide.with(this).load(intent.getExtras().getString("predict")).into(binding.ivChickenpredict);
+        Glide.with(this).load(intent.getExtras().getString("infared")).into(binding.ivChickeninfared);
 //        binding.tvChickenid.setText(intent.getExtras().getString("id"));
 //        binding.tvChickenuuid.setText(intent.getExtras().getString("uuid"));
 //        binding.tvChickenlabel.setText(intent.getExtras().getString("labels"));
         binding.tvChickenchicken.setText(intent.getExtras().getString("chicken"));
-        binding.tvChickensickchicken.setText(intent.getExtras().getString("sickchicken"));
+        binding.tvChickennonchicken.setText(intent.getExtras().getString("nonchicken"));
+        binding.tvTemp.setText(intent.getExtras().getString("hctemp"));
+        long unixtime = Long.parseLong(intent.getExtras().getString("time"));
+        String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));
+        binding.tvTime.setText(date);
 //        binding.tvChickenother.setText(intent.getExtras().getString("other"));
     }
     @Override

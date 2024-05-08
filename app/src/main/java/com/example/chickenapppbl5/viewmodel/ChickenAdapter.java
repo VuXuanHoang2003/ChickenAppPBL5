@@ -42,6 +42,9 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ChickenBreed chickenBreed = chickensList.get(position);
         holder.tvChickenName.setText(chickenBreed.getUuid());
+        long unixtime = Long.parseLong(chickenBreed.getTime());
+        String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));
+        holder.tvChickenTime.setText(date);
         Picasso.get().load(chickenBreed.getUrl()).into(holder.ivChickenImage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -55,9 +58,12 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
                 i.putExtra("uuid", ck.getUuid());
                 i.putExtra("url", ck.getUrl());
                 i.putExtra("predict", ck.getPredict());
+                i.putExtra("infared", ck.getInfared());
                 i.putExtra("labels", ck.getLabels());
                 i.putExtra("chicken", ck.getChicken());
-                i.putExtra("sickchicken", ck.getSick_chicken());
+                i.putExtra("nonchicken", ck.getNon_chicken());
+                i.putExtra("time", ck.getTime());
+                i.putExtra("hctemp", ck.getHctemp());
                 i.putExtra("other", ck.getOther());
                 Log.i("hello", ck.getUuid());
                 Toast.makeText(
@@ -83,12 +89,15 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
         private ImageView ivChickenImage;
         private TextView tvChickenName;
 
+        private TextView tvChickenTime;
+
         OnChickenListener onChickenListener;
         public ViewHolder(View view,OnChickenListener onChickenListener) {
             super(view);
             // Define click listener for the ViewHolder's View
             ivChickenImage = view.findViewById(R.id.iv_chickenImage);
             tvChickenName = view.findViewById(R.id.tv_chickenName);
+            tvChickenTime = view.findViewById(R.id.tv_chickenTime);
             this.onChickenListener=onChickenListener;
             view.setOnClickListener(this);
             // textView = (TextView) view.findViewById(R.id.textView);

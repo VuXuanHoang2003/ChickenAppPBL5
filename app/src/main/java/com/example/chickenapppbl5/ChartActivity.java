@@ -2,7 +2,9 @@ package com.example.chickenapppbl5;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -33,6 +35,13 @@ import com.anychart.enums.Position;
 import com.anychart.enums.TooltipPositionMode;
 import com.example.chickenapppbl5.databinding.ActivityChartBinding;
 import com.example.chickenapppbl5.databinding.ActivityMainBinding;
+import com.example.chickenapppbl5.model.AppDatabase;
+import com.example.chickenapppbl5.model.AppDatabaseChart;
+import com.example.chickenapppbl5.model.ChickenSensor;
+import com.example.chickenapppbl5.model.ChickenDAO;
+import com.example.chickenapppbl5.model.ChickenSensorDAO;
+import com.example.chickenapppbl5.viewmodel.ChickenAdapter;
+import com.example.chickenapppbl5.viewmodel.ChickenApiService;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -47,12 +56,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class ChartActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
     private ActivityChartBinding binding;
-    private List<String> xValues = Arrays.asList("Maths", "Science", "English", "IT");
+
+    private ChickenApiService apiService;
+    private List<ChickenSensor> chickenList;
+    private ChickenSensorDAO ChickenSensorDAO;
+    private AppDatabaseChart appDatabaseChart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,19 +157,55 @@ public class ChartActivity extends AppCompatActivity {
 
         anyChartView1.setChart(pie);
 
+
+        apiService = new ChickenApiService();
+        chickenList = new ArrayList<>();
+
+
         AnyChartView anyChartView2 = findViewById(R.id.any_chart_view2);
         APIlib.getInstance().setActiveAnyChartView(anyChartView2);
         anyChartView2.setProgressBar(findViewById(R.id.progress_bar));
 
         Cartesian cartesian = AnyChart.column();
-        String[] hour = {"2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22", "24"};
-        int[] raw_data = {0, 0, 600, 500, 340, 500, 260, 420, 500, 0, 0, 0};
+//        String[] hour = {"2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22", "24"};
+//        int[] raw_data = {0, 0, 600, 500, 340, 500, 260, 420, 500, 0, 0, 0};
         List<DataEntry> data2 = new ArrayList<>();
-        int sum = 0;
-        for (int i = 0; i < hour.length; i++) {
-            data2.add(new ValueDataEntry(hour[i], raw_data[i]));
-            sum += raw_data[i];
-        }
+        final int[] sum = {0};
+        apiService.getSensors()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<ChickenSensor>>() {
+                    @Override
+                    public void onSuccess(@NonNull List<ChickenSensor> chickenSensors) {
+                        Log.d("DEBUG","success");
+                        for(ChickenSensor chicken: chickenSensors){
+                            ChickenSensor i = new ChickenSensor(chicken.getTime(), chicken.getFood_weight(), chicken.getWater_weight());
+                            chickenList.add(i);
+                            Log.d("DEBUG", Integer.toString(i.getTime()));
+                        }
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                appDatabaseChart = AppDatabaseChart.getInstance(getApplicationContext());
+                                ChickenSensorDAO = appDatabaseChart.chickensensorDAO();
+                                for(ChickenSensor chicken:chickenList){
+                                    ChickenSensor i = new ChickenSensor(chicken.getTime(), chicken.getFood_weight(), chicken.getWater_weight());
+                                    data2.add(new ValueDataEntry(Integer.toString(i.getFood_weight()), i.getWater_weight()));
+                                    sum[0] += i.getFood_weight();
+                                    ChickenSensorDAO.insert(i);
+                                }
+                            }
+                        });
+                    }
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.d("DEBUG","Fail"+e.getMessage());
+                    }
+                });
+//        for (int i = 0; i < hour.length; i++) {
+//            data2.add(new ValueDataEntry(hour[i], raw_data[i]));
+//            sum += raw_data[i];
+//        }
 
         Column column = cartesian.column(data2);
 
@@ -178,7 +231,7 @@ public class ChartActivity extends AppCompatActivity {
         cartesian.yAxis(0).title("Food consumed");
 
         Label textMarker = cartesian.label(3);
-        textMarker.text("Total: " + sum + "g");
+        textMarker.text("Total: " + sum[0] + "g");
         textMarker.fontSize(14d);
         textMarker.fontColor("#000000");
         textMarker.offsetX("60%");
@@ -186,7 +239,7 @@ public class ChartActivity extends AppCompatActivity {
         textMarker.anchor("bottom");
 
         Label textMarker1 = cartesian.label(4);
-        textMarker1.text("Average: " + sum/24 + "g");
+        textMarker1.text("Average: " + sum[0] /24 + "g");
         textMarker1.fontSize(14d);
         textMarker1.fontColor("#000000");
         textMarker1.offsetX("60%");

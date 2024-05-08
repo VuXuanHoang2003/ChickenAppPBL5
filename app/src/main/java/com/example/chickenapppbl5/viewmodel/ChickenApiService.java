@@ -2,6 +2,7 @@ package com.example.chickenapppbl5.viewmodel;
 
 import com.example.chickenapppbl5.model.ChickenApi;
 import com.example.chickenapppbl5.model.ChickenBreed;
+import com.example.chickenapppbl5.model.ChickenSensor;
 
 import java.util.List;
 
@@ -23,6 +24,10 @@ public class ChickenApiService  {
     }
     public Single<List<ChickenBreed>> getChickens(){
         return api.getChickens();
+    }
+
+    public Single<List<ChickenSensor>> getSensors(){
+        return api.getSensors();
     }
 
 }

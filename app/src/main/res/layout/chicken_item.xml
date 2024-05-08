@@ -1,50 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
     android:id="@+id/cardView"
-    style="@style/SCREEN">
-
+    app:cardCornerRadius="10dp">
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="280dp"
-        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="vertical"
-            android:backgroundTint="@color/black">
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:id="@+id/iv_chickenImage"
-                android:scaleType="fitXY"
-                android:clipToOutline="true"
-                android:background="@drawable/rounded_background"
-                ></ImageView>
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="8dp">
+            android:padding="10dp">
 
-            <TextView
-                style="@style/TEXT"
-                android:id="@+id/tv_chickenName"
+            <ImageView
+                android:id="@+id/iv_chickenImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/baseline_image_24"
+                android:scaleType="fitXY"
+                android:clipToOutline="true"
+                android:onClick="zoomImage"
+                android:background="@drawable/rounded_background">
+
+            </ImageView>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="0dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="Chicken Name"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:textStyle="bold"></TextView>
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_titleuuid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="UUID:"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"></TextView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_chickenName"
+                        android:text="UUID"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:maxLines="2"
+                        android:gravity="center"
+                        android:ellipsize="end"></TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_titletime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="Time:"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold">
+                    </TextView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_chickenTime"
+                        android:text="Time"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:maxLines="2"
+                        android:gravity="center"
+                        android:ellipsize="end"></TextView>
+                </LinearLayout>
+
+
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

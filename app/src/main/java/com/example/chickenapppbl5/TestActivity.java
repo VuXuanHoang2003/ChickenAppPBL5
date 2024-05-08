@@ -40,18 +40,18 @@ public class TestActivity extends AppCompatActivity {
         binding.listview.setAdapter(listAdapter);
         binding.listview.setClickable(true);
 
-        binding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(TestActivity.this, com.example.customlistview.DetailedTestActivity.class);
-                intent.putExtra("name", nameList[i]);
-                intent.putExtra("time", timeList[i]);
-                intent.putExtra("ingredients", ingredientList[i]);
-                intent.putExtra("desc", descList[i]);
-                intent.putExtra("image", imageList[i]);
-                startActivity(intent);
-            }
-        });
+//        binding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent intent = new Intent(TestActivity.this, com.example.customlistview.DetailedTestActivity.class);
+//                intent.putExtra("name", nameList[i]);
+//                intent.putExtra("time", timeList[i]);
+//                intent.putExtra("ingredients", ingredientList[i]);
+//                intent.putExtra("desc", descList[i]);
+//                intent.putExtra("image", imageList[i]);
+//                startActivity(intent);
+//            }
+//        });
         binding.btnOpencalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

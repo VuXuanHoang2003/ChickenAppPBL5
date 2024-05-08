@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.chickenapppbl5" />
-                  <option name="mobileSdkAppId" value="1:1013116381788:android:a24b0f82a22d3e5744d499" />
-                  <option name="projectId" value="chickenapppbl5" />
-                  <option name="projectNumber" value="1013116381788" />
+                  <option name="mobileSdkAppId" value="1:1059729144469:android:ce1a64729b586373b0799c" />
+                  <option name="projectId" value="chickenapp-71716" />
+                  <option name="projectNumber" value="1059729144469" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

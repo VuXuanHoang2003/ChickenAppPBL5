@@ -45,11 +45,11 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:text="Feb 2021"
+            android:text="Month Year"
             android:textSize="20sp"
             android:textAlignment="center"
             android:textColor="@color/black"
-            style="@style/TEXT"/>
+            />
 
         <Button
             android:layout_width="0dp"
@@ -61,7 +61,7 @@
             android:textStyle="bold"
             android:onClick="nextMonthAction"
             android:textSize="20sp"
-            style="@style/BUTTON"/>
+            />
 
     </LinearLayout>
 
