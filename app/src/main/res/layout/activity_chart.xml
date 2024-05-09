@@ -5,37 +5,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChartActivity">
-
-    <com.anychart.AnyChartView
-        android:id="@+id/any_chart_view1"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        app:layout_constraintBottom_toTopOf="@+id/any_chart_view2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.anychart.AnyChartView
-        android:id="@+id/any_chart_view2"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_below="@+id/any_chart_view1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/any_chart_view1" />
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:text="Select Chart Type"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:padding="15dp"
+        android:textStyle="bold"
+        android:background="@color/black"
+        android:id="@+id/title1" >
+    </TextView>
+<!--    Linear Layout with 2 buttons horizontally-->
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="500dp"
+        android:layout_height="350dp"
+        android:orientation="vertical"
+        android:id="@+id/ll_buttons"
+        android:layout_below="@id/title1">
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/food"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:id="@+id/imgbtn_food">
+        </ImageButton>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_food"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:text="Food/Time Chart"
+            android:layout_weight="1"
+            app:cornerRadius="15dp"
+            android:textSize="20sp"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:onClick="onFoodClick"
+            />
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/baseline_water_drop_24"
+            android:scaleType="fitXY"
+            android:layout_gravity="center"
+            android:id="@+id/imgbtn_water">
+        </ImageButton>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_water"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:text="Water/Time Chart"
+            android:layout_weight="1"
+            app:cornerRadius="15dp"
+            android:textSize="20sp"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:onClick="onWaterClick"
+            />
+    </LinearLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

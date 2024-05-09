@@ -16,6 +16,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ChartWaterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChartFoodActivity"
+            android:exported="false" />
+        <activity
             android:name=".CalendarByMonthActivity"
             android:exported="false" />
         <activity

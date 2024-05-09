@@ -18,9 +18,20 @@
         android:id="@+id/title_notify" >
     </TextView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="High temperature"
+        android:textSize="18dp"
+        android:layout_below="@+id/title_notify"
+        android:padding="15dp"
+        android:id="@+id/title" >
+
+    </TextView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_notify"
-        android:layout_below="@+id/title_notify"
+        android:layout_below="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_editor_absoluteX="1dp"

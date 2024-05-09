@@ -13,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.example.chickenapppbl5.databinding.ActivityChickenDayBinding;
 import com.example.chickenapppbl5.databinding.ActivityMainBinding;
@@ -60,7 +61,7 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
 
         });
         Intent intent = getIntent();
-        Toast.makeText(this, "Day: " + intent.getStringExtra("day") + " Month: " + intent.getStringExtra("month"), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Day: " + intent.getStringExtra("day") + " Month: " + intent.getStringExtra("month"), Toast.LENGTH_SHORT).show();
         binding.dayTitle.setText("Chicken Day "+ intent.getStringExtra("day") + "/" + intent.getStringExtra("month") );
         binding.rvChickenDayApp.setLayoutManager(new GridLayoutManager(this,1));
         chickenList = new ArrayList<>();
@@ -111,6 +112,24 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
                         Log.d("DEBUG","Fail"+e.getMessage());
                     }
                 });
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(new ItemTouchListener() {
+            @Override
+            public void onMove(int oldPosition, int newPosition) {
+                chickensAdapter.onMove(oldPosition, newPosition);
+            }
+
+            @Override
+            public void swipe(int position, int direction) {
+                chickensAdapter.swipe(position, direction);
+                // delete from api using uuid
+                ChickenBreed chicken = chickenList.get(position);
+                apiService.deleteChicken(chicken.getUuid());
+                chickenList.remove(position);
+                chickensAdapter.notifyItemRemoved(position);
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(binding.rvChickenDayApp);
 
     }
     @Override

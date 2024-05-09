@@ -150,7 +150,7 @@ public class CalendarActivity extends AppCompatActivity implements ChickenAdapte
             // Convert the month to a number
             int month = selectedDate.getMonthValue();
             // Toast month
-            Toast.makeText(this, "Month: " + month, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Month: " + month, Toast.LENGTH_LONG).show();
             i.putExtra("day", dayText);
             i.putExtra("month", String.valueOf(month));
             startActivity(i);

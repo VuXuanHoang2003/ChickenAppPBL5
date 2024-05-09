@@ -88,10 +88,6 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
                         startActivity(new Intent(getApplicationContext(),NotificationsActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.settings:
-                        startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
                 }
                 return false;
             }
@@ -176,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
             // Convert the month to a number
             int month = selectedDate.getMonthValue();
             // Toast month
-            Toast.makeText(this, "Month: " + month, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Month: " + month, Toast.LENGTH_LONG).show();
             i.putExtra("day", dayText);
             i.putExtra("month", String.valueOf(month));
             startActivity(i);

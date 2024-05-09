@@ -66,7 +66,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView = findViewById(R.id.bottom_navigator);
-        bottomNavigationView.setSelectedItemId(R.id.settings);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -79,8 +78,6 @@ public class SettingsActivity extends AppCompatActivity {
                     case R.id.chart:
                         startActivity(new Intent(getApplicationContext(),ChartActivity.class));
                         overridePendingTransition(0,0);
-                        return true;
-                    case R.id.settings:
                         return true;
                     case R.id.notifications:
                         startActivity(new Intent(getApplicationContext(),NotificationsActivity.class));

@@ -18,19 +18,12 @@
         android:id="@+id/title1" >
     </TextView>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Click here to open Calendar"
-        android:id="@+id/btn_opencalendar"
-        android:layout_below="@+id/title1"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Latest 7 days"
         android:textSize="20dp"
-        android:layout_below="@+id/btn_opencalendar"
+        android:layout_below="@+id/title1"
         android:padding="15dp"
         android:id="@+id/title2" >
     </TextView>
@@ -40,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="May 2024"
-        android:layout_below="@id/btn_opencalendar"
+        android:layout_below="@id/title1"
         android:layout_toEndOf="@+id/title2"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -51,12 +44,21 @@
         android:id="@+id/rv_calendar7days"
         android:layout_below="@+id/title2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="800dp"
         android:layout_centerInParent="true"
         android:layout_margin="10dp"
         tools:listitem="@layout/list_calendar">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="Or click here to open Calendar"
+        android:id="@+id/btn_opencalendar"
+        android:layout_below="@+id/rv_calendar7days"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

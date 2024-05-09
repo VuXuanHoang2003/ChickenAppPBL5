@@ -33,7 +33,6 @@ public class ChickenItemActivity extends AppCompatActivity {
 //        binding.tvChickenuuid.setText(intent.getExtras().getString("uuid"));
 //        binding.tvChickenlabel.setText(intent.getExtras().getString("labels"));
         binding.tvChickenchicken.setText(intent.getExtras().getString("chicken"));
-        binding.tvChickennonchicken.setText(intent.getExtras().getString("nonchicken"));
         binding.tvTemp.setText(intent.getExtras().getString("hctemp"));
         long unixtime = Long.parseLong(intent.getExtras().getString("time"));
         String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));

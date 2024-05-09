@@ -130,7 +130,7 @@ public class CalendarByMonthActivity extends AppCompatActivity {
         if(!dayText.equals(""))
         {
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             Intent i = new Intent(this, ChickenDayActivity.class);
             int month = selectedDate.getMonthValue();
             i.putExtra("day", dayText);
