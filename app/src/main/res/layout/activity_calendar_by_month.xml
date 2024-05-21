@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/back"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="previousMonthAction"
@@ -48,7 +48,6 @@
             android:text="Month Year"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="@color/black"
             />
 
         <Button
@@ -56,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/forward"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="nextMonthAction"

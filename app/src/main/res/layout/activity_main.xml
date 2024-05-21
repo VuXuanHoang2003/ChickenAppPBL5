@@ -44,7 +44,7 @@
         android:id="@+id/rv_calendar7days"
         android:layout_below="@+id/title2"
         android:layout_width="match_parent"
-        android:layout_height="800dp"
+        android:layout_height="770dp"
         android:layout_centerInParent="true"
         android:layout_margin="10dp"
         tools:listitem="@layout/list_calendar">

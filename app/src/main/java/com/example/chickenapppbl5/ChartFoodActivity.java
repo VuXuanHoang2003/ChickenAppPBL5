@@ -59,14 +59,12 @@ public class ChartFoodActivity extends AppCompatActivity {
             return insets;
         });
         Intent intent = getIntent();
+        // receive data from ChartActivity
+        String message = intent.getStringExtra("selectedDate");
         apiService = new ChickenApiService();
         chickenList = new ArrayList<>();
-
-
         AnyChartView anyChartView = findViewById(R.id.any_chart_view);
         APIlib.getInstance().setActiveAnyChartView(anyChartView);
-
-
         Cartesian cartesian = AnyChart.column();
         List<DataEntry> data2 = new ArrayList<>();
         apiService.getSensors()
@@ -82,12 +80,13 @@ public class ChartFoodActivity extends AppCompatActivity {
                             long unixtime = Long.parseLong(i.getTime());
                             String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));
                             int tmp = Math.round(Float.parseFloat(i.getFood_weight()));
-                            data2.add(new ValueDataEntry(date,tmp));
-                            totalsum += tmp;
-                            //Log.d("DEBUG", i.getTime());
+                            // check if date contains the selected date
+                            if (date.contains(message)){
+                                data2.add(new ValueDataEntry(date,tmp));
+                                totalsum += tmp;
+                            }
                         }
                         // Convert unixtime to timedate
-
                         long time1 = Long.parseLong(chickenList.get(0).getTime());
                         long time2 = Long.parseLong(chickenList.get(chickenList.size()-1).getTime());
                         long daysBetween = 0;
@@ -127,13 +126,13 @@ public class ChartFoodActivity extends AppCompatActivity {
                         textMarker.offsetY("15%");
                         textMarker.anchor("bottom");
 
-                        Label textMarker1 = cartesian.label(4);
-                        textMarker1.text("Average: " + totalsum /daysBetween + "g");
-                        textMarker1.fontSize(14d);
-                        textMarker1.fontColor("#000000");
-                        textMarker1.offsetX("60%");
-                        textMarker1.offsetY("20%");
-                        textMarker1.anchor("bottom");
+//                        Label textMarker1 = cartesian.label(4);
+//                        textMarker1.text("Average: " + totalsum + "g");
+//                        textMarker1.fontSize(14d);
+//                        textMarker1.fontColor("#000000");
+//                        textMarker1.offsetX("60%");
+//                        textMarker1.offsetY("20%");
+//                        textMarker1.anchor("bottom");
 
 
                         anyChartView.setChart(cartesian);

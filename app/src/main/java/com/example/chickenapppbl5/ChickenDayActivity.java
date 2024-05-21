@@ -112,24 +112,24 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
                         Log.d("DEBUG","Fail"+e.getMessage());
                     }
                 });
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(new ItemTouchListener() {
-            @Override
-            public void onMove(int oldPosition, int newPosition) {
-                chickensAdapter.onMove(oldPosition, newPosition);
-            }
-
-            @Override
-            public void swipe(int position, int direction) {
-                chickensAdapter.swipe(position, direction);
-                // delete from api using uuid
-                ChickenBreed chicken = chickenList.get(position);
-                apiService.deleteChicken(chicken.getUuid());
-                chickenList.remove(position);
-                chickensAdapter.notifyItemRemoved(position);
-            }
-        });
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(binding.rvChickenDayApp);
+//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(new ItemTouchListener() {
+//            @Override
+//            public void onMove(int oldPosition, int newPosition) {
+//                chickensAdapter.onMove(oldPosition, newPosition);
+//            }
+//
+//            @Override
+//            public void swipe(int position, int direction) {
+//                chickensAdapter.swipe(position, direction);
+//                // delete from api using uuid
+//                ChickenBreed chicken = chickenList.get(position);
+//                apiService.deleteChicken(chicken.getUuid());
+//                chickenList.remove(position);
+//                chickensAdapter.notifyItemRemoved(position);
+//            }
+//        });
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+//        itemTouchHelper.attachToRecyclerView(binding.rvChickenDayApp);
 
     }
     @Override
