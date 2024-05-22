@@ -1,17 +1,12 @@
 package com.example.chickenapppbl5;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -21,12 +16,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chickenapppbl5.databinding.ActivityCalendarBinding;
-import com.example.chickenapppbl5.databinding.ActivityMainBinding;
 import com.example.chickenapppbl5.model.AppDatabase;
 import com.example.chickenapppbl5.model.ChickenBreed;
 import com.example.chickenapppbl5.model.ChickenDAO;
 import com.example.chickenapppbl5.viewmodel.Calendar7DaysAdapter;
-import com.example.chickenapppbl5.viewmodel.CalendarAdapter;
 import com.example.chickenapppbl5.viewmodel.ChickenAdapter;
 import com.example.chickenapppbl5.viewmodel.ChickenApiService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,10 +28,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.observers.DisposableSingleObserver;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class CalendarActivity extends AppCompatActivity implements ChickenAdapter.OnChickenListener{
 

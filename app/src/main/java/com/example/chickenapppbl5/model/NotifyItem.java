@@ -1,7 +1,5 @@
 package com.example.chickenapppbl5.model;
 
-import android.net.Uri;
-
 import androidx.room.Entity;
 
 @Entity(tableName = "Notify")

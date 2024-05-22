@@ -8,13 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.chickenapppbl5.R;
-import com.example.chickenapppbl5.model.ListData;
+
+import java.util.ArrayList;
 
 public class ListAdapter extends ArrayAdapter<String> {
     public ListAdapter(@NonNull Context context, ArrayList<String> dataArrayList) {
