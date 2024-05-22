@@ -61,7 +61,6 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
 
         });
         Intent intent = getIntent();
-        //Toast.makeText(this, "Day: " + intent.getStringExtra("day") + " Month: " + intent.getStringExtra("month"), Toast.LENGTH_SHORT).show();
         binding.dayTitle.setText("Chicken Day "+ intent.getStringExtra("day") + "/" + intent.getStringExtra("month") );
         binding.rvChickenDayApp.setLayoutManager(new GridLayoutManager(this,1));
         chickenList = new ArrayList<>();
@@ -95,13 +94,6 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
                                 appDatabase = AppDatabase.getInstance(getApplicationContext());
                                 ChickenDAO = appDatabase.chickenDAO();
                                 for(ChickenBreed chicken:chickenList){
-//                                    long unixTime = Long.parseLong(chicken.getTime());
-//                                    Date date = new Date(unixTime * 1000L);
-//                                    Calendar cal = Calendar.getInstance();
-//                                    cal.setTime(date);
-//                                    if (cal.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(intent.getStringExtra("day")) && (cal.get(Calendar.MONTH) + 1) == Integer.parseInt(intent.getStringExtra("month"))){
-//                                        ChickenDAO.insert(chicken);
-//                                    }
                                     ChickenDAO.insert(chicken);
                                 }
                             }
