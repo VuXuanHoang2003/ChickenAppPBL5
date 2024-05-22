@@ -25,7 +25,6 @@
                 android:src="@drawable/baseline_image_24"
                 android:scaleType="fitXY"
                 android:clipToOutline="true"
-                android:onClick="zoomImage"
                 android:background="@drawable/rounded_background">
 
             </ImageView>
