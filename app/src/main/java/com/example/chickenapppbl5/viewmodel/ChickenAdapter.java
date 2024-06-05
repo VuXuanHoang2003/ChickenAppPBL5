@@ -43,7 +43,7 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ChickenBreed chickenBreed = chickensList.get(position);
         holder.tvChickenName.setText(String.valueOf(chickenBreed.getId()));
-        holder.tvChickenTemp.setText(chickenBreed.getHctemp());
+        holder.tvChickenTemp.setText(String.valueOf(chickenBreed.getHctemp()));
         long unixtime = Long.parseLong(chickenBreed.getTime());
         String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));
         holder.tvChickenTime.setText(date);
@@ -64,7 +64,7 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
                 i.putExtra("labels", ck.getLabels());
                 i.putExtra("chicken", ck.getChicken());
                 i.putExtra("time", ck.getTime());
-                i.putExtra("hctemp", ck.getHctemp());
+                i.putExtra("hctemp", String.valueOf(ck.getHctemp()));
                 i.putExtra("other", ck.getOther());
                 Log.i("hello", ck.getUuid());
 //                Toast.makeText(

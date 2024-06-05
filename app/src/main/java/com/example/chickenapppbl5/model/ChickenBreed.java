@@ -10,11 +10,11 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "Chicken")
 public class ChickenBreed {
     @SerializedName("id")
-    @PrimaryKey()
-    @NonNull
+    @ColumnInfo
     private long id;
     @SerializedName("uuid")
-    @ColumnInfo()
+    @PrimaryKey()
+    @NonNull
     private String uuid;
     @SerializedName("url")
     @ColumnInfo()
@@ -46,14 +46,14 @@ public class ChickenBreed {
 
     @SerializedName("highest_chicken_temp")
     @ColumnInfo
-    private String hctemp;
+    private float hctemp;
 
     @SerializedName("other")
     @ColumnInfo
     private String other;
 
 
-    public ChickenBreed(long id, String uuid, String url, String predict, String infared, String labels, String chicken, String non_chicken,String time, String hctemp, String other) {
+    public ChickenBreed(long id, String uuid, String url, String predict, String infared, String labels, String chicken, String non_chicken,String time, float hctemp, String other) {
         this.id = id;
         this.uuid = uuid;
         this.url = url;
@@ -136,11 +136,11 @@ public class ChickenBreed {
         this.time = time;
     }
 
-    public String getHctemp() {
+    public float getHctemp() {
         return hctemp;
     }
 
-    public void setHctemp(String hctemp) {
+    public void setHctemp(float hctemp) {
         this.hctemp = hctemp;
     }
 

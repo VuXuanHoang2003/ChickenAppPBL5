@@ -129,6 +129,7 @@ public class CalendarByMonthActivity extends AppCompatActivity {
             int month = selectedDate.getMonthValue();
             i.putExtra("day", dayText);
             i.putExtra("month", String.valueOf(month));
+            i.putExtra("year", String.valueOf(selectedDate.getYear()));
             startActivity(i);
         }
     }

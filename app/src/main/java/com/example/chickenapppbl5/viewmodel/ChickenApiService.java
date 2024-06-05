@@ -22,8 +22,8 @@ public class ChickenApiService  {
                 .build()
                 .create(ChickenApi.class);
     }
-    public Single<List<ChickenBreed>> getChickens(){
-        return api.getChickens();
+    public Single<List<ChickenBreed>> getChickens(int from_time, int to_time){
+        return api.getChickens(from_time, to_time);
     }
 
     public Single<List<ChickenSensor>> getSensors(){
@@ -31,6 +31,14 @@ public class ChickenApiService  {
     }
     public Single<String> deleteChicken(String uuid){
         return api.deleteChicken(uuid);
+    }
+
+    public Single<List<ChickenBreed>> getAll(){
+        return api.getAll();
+    }
+
+    public Single<List<ChickenBreed>> getHighTemp(float temp) {
+        return api.getHighTemp(temp);
     }
 
 }

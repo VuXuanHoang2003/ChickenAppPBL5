@@ -1,6 +1,10 @@
 package com.example.chickenapppbl5;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,49 +60,95 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
 
         });
         Intent intent = getIntent();
-        binding.dayTitle.setText("Chicken Day "+ intent.getStringExtra("day") + "/" + intent.getStringExtra("month") );
+        binding.dayTitle.setText("Chicken Day "+ intent.getStringExtra("day") + "/" + intent.getStringExtra("month") + "/" + intent.getStringExtra("year"));
         binding.rvChickenDayApp.setLayoutManager(new GridLayoutManager(this,1));
         chickenList = new ArrayList<>();
         chickensAdapter = new ChickenAdapter(chickenList,this);
         binding.rvChickenDayApp.setAdapter(chickensAdapter);
         apiService = new ChickenApiService();
-        apiService.getChickens()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<List<ChickenBreed>>() {
-                    @Override
-                    public void onSuccess(@NonNull List<ChickenBreed> chickenBreeds) {
-                        Log.d("DEBUG","success");
-                        for(ChickenBreed chicken: chickenBreeds){
-                            ChickenBreed i = new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getInfared(), chicken.getLabels(), chicken.getChicken(), chicken.getNon_chicken(), chicken.getTime(), chicken.getHctemp(), chicken.getOther());
-                            //chickenList.add(i);
-                            long unixTime = Long.parseLong(chicken.getTime());
-                            Date date = new Date(unixTime * 1000L);
-                            Calendar cal = Calendar.getInstance();
-                            cal.setTime(date);
-                            if (cal.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(intent.getStringExtra("day")) && (cal.get(Calendar.MONTH) + 1) == Integer.parseInt(intent.getStringExtra("month"))){
-                                chickenList.add(i);
-                                //ChickenDAO.insert(chicken);
-                            }
-                            Log.d("DEBUG",i.getUuid());
-                            chickensAdapter.notifyDataSetChanged();
+        // Convert date from intent to unixtime
+        long unixTime = 0;
+        try {
+            String date = intent.getStringExtra("year") + "-" + intent.getStringExtra("month") + "-" + intent.getStringExtra("day") + " 00:00:00";
+            unixTime = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date).getTime();
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        // from time to time 1 day
+        // convert unixtime from string to integer
+        int from_time = (int) (unixTime / 1000);
+        int to_time = from_time + 86400;
+        Log.d("DEBUG", "from_time: " + from_time + " to_time: " + to_time);
+        // check if internet is unavailable
+        if (!isInternetAvailable()){
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    appDatabase = AppDatabase.getInstance(getApplicationContext());
+                    ChickenDAO = appDatabase.chickenDAO();
+                    List<ChickenBreed> tempChickenList = new ArrayList<>();
+                    tempChickenList = ChickenDAO.getChickensTime(from_time, to_time);
+                    Log.d("DEBUG", "tempChickenList: " + tempChickenList.size());
+                    //chickenList.addAll(tempChickenList);
+                    chickensAdapter = new ChickenAdapter(tempChickenList, ChickenDayActivity.this);
+                    binding.rvChickenDayApp.setAdapter(chickensAdapter);
+                    chickensAdapter.notifyDataSetChanged();
+                    runOnUiThread(new Runnable() {
+                        @SuppressLint("NotifyDataSetChanged")
+                        @Override
+                        public void run() {
+                            // if dataset is not changed, still view the old data
                         }
-                        AsyncTask.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                appDatabase = AppDatabase.getInstance(getApplicationContext());
-                                ChickenDAO = appDatabase.chickenDAO();
-                                for(ChickenBreed chicken:chickenList){
-                                    ChickenDAO.insert(chicken);
+                    });
+                }
+            });
+        }
+        else {
+            apiService.getChickens(from_time, to_time)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new DisposableSingleObserver<List<ChickenBreed>>() {
+                        @Override
+                        public void onSuccess(@NonNull List<ChickenBreed> chickenBreeds) {
+                            Log.d("DEBUG","success");
+                            for(ChickenBreed chicken: chickenBreeds){
+                                ChickenBreed i = new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getInfared(), chicken.getLabels(), chicken.getChicken(), chicken.getNon_chicken(), chicken.getTime(), chicken.getHctemp(), chicken.getOther());
+                                //chickenList.add(i);
+                                long unixTime = Long.parseLong(chicken.getTime());
+                                Date date = new Date(unixTime * 1000L);
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(date);
+                                    if (cal.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(intent.getStringExtra("day")) && (cal.get(Calendar.MONTH) + 1) == Integer.parseInt(intent.getStringExtra("month"))){
+                                    chickenList.add(i);
+                                    //ChickenDAO.insert(chicken);
                                 }
+                                //Log.d("DEBUG",i.getUuid());
+                                chickensAdapter.notifyDataSetChanged();
                             }
-                        });
-                    }
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d("DEBUG","Fail"+e.getMessage());
-                    }
-                });
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    appDatabase = AppDatabase.getInstance(getApplicationContext());
+                                    ChickenDAO = appDatabase.chickenDAO();
+                                    for(ChickenBreed chicken:chickenList){
+                                        ChickenDAO.insert(chicken);
+                                        int count = ChickenDAO.countByUuid(chicken.getUuid());
+                                        if (count <= 0) {
+                                            appDatabase.insertData(chicken);
+                                        } else {
+                                            // This chicken is a duplicate
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+                            Log.d("DEBUG","Fail"+e.getMessage());
+                        }
+                    });
+        }
+
 //        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(new ItemTouchListener() {
 //            @Override
 //            public void onMove(int oldPosition, int newPosition) {
@@ -118,6 +168,12 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
 //        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
 //        itemTouchHelper.attachToRecyclerView(binding.rvChickenDayApp);
 
+    }
+
+    public boolean isInternetAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
     @Override
     public void onChickenClick(int position) {

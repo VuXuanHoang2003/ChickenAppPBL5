@@ -1,8 +1,10 @@
 package com.example.chickenapppbl5;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -29,7 +31,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements ChickenAdapter.OnChickenListener{
 
@@ -85,6 +93,42 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
             }
         });
         initWidgets();
+        apiService = new ChickenApiService();
+        chickenList = new ArrayList<>();
+        apiService.getAll()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<ChickenBreed>>() {
+                    @Override
+                    public void onSuccess(@NonNull List<ChickenBreed> chickenBreeds) {
+                        Log.d("DEBUG","success");
+                        for(ChickenBreed chicken: chickenBreeds){
+                            ChickenBreed i = new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getInfared(), chicken.getLabels(), chicken.getChicken(), chicken.getNon_chicken(), chicken.getTime(), chicken.getHctemp(), chicken.getOther());
+                            chickenList.add(i);
+                            //Log.d("DEBUG",i.getUuid());
+                        }
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                appDatabase = AppDatabase.getInstance(getApplicationContext());
+                                ChickenDAO = appDatabase.chickenDAO();
+                                for(ChickenBreed chicken:chickenList){
+                                    ChickenDAO.insert(chicken);
+                                    int count = ChickenDAO.countByUuid(chicken.getUuid());
+                                    if (count <= 0) {
+                                        appDatabase.insertData(chicken);
+                                    } else {
+                                        // This chicken is a duplicate
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.d("DEBUG","Fail"+e.getMessage());
+                    }
+                });
         selectedDate = LocalDate.now();
         setMonthView();
         Intent intent = getIntent();
@@ -167,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
             //Toast.makeText(this, "Month: " + month, Toast.LENGTH_LONG).show();
             i.putExtra("day", dayText);
             i.putExtra("month", String.valueOf(month));
+            i.putExtra("year", String.valueOf(selectedDate.getYear()));
             startActivity(i);
         }
     }
