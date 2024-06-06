@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.chickenapppbl5.ChickenItemActivity;
 import com.example.chickenapppbl5.R;
 import com.example.chickenapppbl5.model.ChickenBreed;
@@ -47,7 +49,8 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
         long unixtime = Long.parseLong(chickenBreed.getTime());
         String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));
         holder.tvChickenTime.setText(date);
-        Picasso.get().load(chickenBreed.getUrl()).into(holder.ivChickenImage);
+        //Picasso.get().load(chickenBreed.getUrl()).into(holder.ivChickenImage);
+        Glide.with(holder.itemView.getContext()).load(chickenBreed.getUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.ivChickenImage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

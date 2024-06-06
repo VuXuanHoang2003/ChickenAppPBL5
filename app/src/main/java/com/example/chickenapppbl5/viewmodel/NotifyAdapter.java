@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.chickenapppbl5.R;
 import com.example.chickenapppbl5.model.NotifyItem;
 
@@ -43,7 +44,7 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.ViewHolder
         long unixtime = Long.parseLong(notify.getTime());
         String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));
         holder.tvTime.setText(date);
-        Glide.with(holder.itemView.getContext()).load(notify.getImg()).into(holder.ivImg);
+        Glide.with(holder.itemView.getContext()).load(notify.getImg()).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.ivImg);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
