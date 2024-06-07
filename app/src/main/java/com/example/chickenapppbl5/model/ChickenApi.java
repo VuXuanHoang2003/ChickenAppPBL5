@@ -8,14 +8,14 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ChickenApi {
-    @GET("api/image/getbytime")
+    @GET("image/search")
     Single<List<ChickenBreed>> getChickens(@Query("from_time") int from_time, @Query("to_time") int to_time);
-    @GET("api/image/getbytime")
+    @GET("image/search")
     Single<List<ChickenBreed>> getAll();
-    @DELETE("api/image/delete")
+    @DELETE("image/delete")
     Single<String> deleteChicken(String uuid);
-    @GET("api/sensor/")
+    @GET("sensor")
     Single<List<ChickenSensor>> getSensors();
-    @GET("api/image/getbytime")
+    @GET("image/search")
     Single<List<ChickenBreed>> getHighTemp(@Query("minimum_temp") float temp);
 }

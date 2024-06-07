@@ -12,7 +12,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChickenApiService  {
-    private static final String BASE_URL="http://nglam.xyz/";
+    private static final String BASE_URL="http://nglam.xyz/api/v2/";
     private ChickenApi api;
     public  ChickenApiService(){
         api= new Retrofit.Builder()
