@@ -72,11 +72,11 @@ public class ChartFoodActivity extends AppCompatActivity {
                 .subscribeWith(new DisposableSingleObserver<List<ChickenSensor>>() {
                     @Override
                     public void onSuccess(@NonNull List<ChickenSensor> chickenSensors) {
-                        Log.d("DEBUG","success");
+                        Log.d("HEHEHE","success");
                         for(ChickenSensor chicken: chickenSensors){
                             ChickenSensor i = new ChickenSensor(chicken.getTime(), chicken.getFood_weight(), chicken.getWater_weight());
                             chickenList.add(i);
-                            long unixtime = Long.parseLong(i.getTime());
+                            long unixtime = Long.parseLong(String.valueOf(i.getTime()));
                             String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));
                             int tmp = Math.round(Float.parseFloat(i.getFood_weight()));
                             // check if date contains the selected date
@@ -86,8 +86,8 @@ public class ChartFoodActivity extends AppCompatActivity {
                             }
                         }
                         // Convert unixtime to timedate
-                        long time1 = Long.parseLong(chickenList.get(0).getTime());
-                        long time2 = Long.parseLong(chickenList.get(chickenList.size()-1).getTime());
+                        long time1 = Long.parseLong(String.valueOf(chickenList.get(0).getTime()));
+                        long time2 = Long.parseLong(String.valueOf(chickenList.get(chickenList.size()-1).getTime()));
                         long daysBetween = 0;
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             LocalDateTime dt1 = LocalDateTime.ofInstant(Instant.ofEpochSecond(time1), ZoneId.systemDefault());
@@ -105,7 +105,7 @@ public class ChartFoodActivity extends AppCompatActivity {
                                 .format("{%Value}{groupsSeparator: }g");
 
                         cartesian.animation(true);
-                        cartesian.title("Amount of food chicken consumed in all days");
+                        cartesian.title("Amount of food chicken consumed in " + intent.getStringExtra("selectedDate"));
 
                         cartesian.yScale().minimum(0d);
 
@@ -148,9 +148,9 @@ public class ChartFoodActivity extends AppCompatActivity {
                                     ChickenSensor i = new ChickenSensor(chicken.getTime(), chicken.getFood_weight(), chicken.getWater_weight());
                                     int tmp = Math.round(Float.parseFloat(i.getFood_weight()));
                                     data2.add(new ValueDataEntry(i.getFood_weight(),tmp));
-                                    //Log.d("DEBUG", "sum:" + sum[0]);;
-                                    ChickenSensorDAO.insert(i);
-                                    //Log.d("DEBUG", i.getFood_weight());
+                                    //Log.d("HEHEHE", "sum:" + sum[0]);;
+                                    ChickenSensorDAO.insertSensor(i);
+                                    //Log.d("HEHEHE", i.getFood_weight());
                                 }
                                 //totalsum = sum[0];
                             }
@@ -158,7 +158,7 @@ public class ChartFoodActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Log.d("DEBUG","Fail"+e.getMessage());
+                        Log.d("HEHEHE","Fail"+e.getMessage());
                     }
                 });
     }

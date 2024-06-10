@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {ChickenBreed.class},version = 8,exportSchema = false)
+@Database(entities = {ChickenBreed.class},version = 9,exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ChickenDAO chickenDAO();
@@ -24,17 +24,18 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     //insert data
-    public void insertData(ChickenBreed chickenBreed){
+    public void insertChicken(ChickenBreed chickenBreed){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                chickenDAO().insert(chickenBreed);
+                chickenDAO().insertChicken(chickenBreed);
             }
         }).start();
     }
 
+
     //get all data
-    public void getAllData(){
+    public void getAllChicken(){
         new Thread(new Runnable() {
             @Override
             public void run() {

@@ -72,11 +72,11 @@ public class ChartWaterActivity extends AppCompatActivity {
                 .subscribeWith(new DisposableSingleObserver<List<ChickenSensor>>() {
                     @Override
                     public void onSuccess(@NonNull List<ChickenSensor> chickenSensors) {
-                        Log.d("DEBUG","success");
+                        Log.d("HEHEHE","success");
                         for(ChickenSensor chicken: chickenSensors){
                             ChickenSensor i = new ChickenSensor(chicken.getTime(), chicken.getFood_weight(), chicken.getWater_weight());
                             chickenList.add(i);
-                            long unixtime = Long.parseLong(i.getTime());
+                            long unixtime = Long.parseLong(String.valueOf(i.getTime()));
                             String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));
                             int tmp = Math.round(Float.parseFloat(i.getWater_weight()));
                             // check if date contains the selected date
@@ -85,8 +85,8 @@ public class ChartWaterActivity extends AppCompatActivity {
                                 totalsum += tmp;
                             }
                         }
-                        long time1 = Long.parseLong(chickenList.get(0).getTime());
-                        long time2 = Long.parseLong(chickenList.get(chickenList.size()-1).getTime());
+                        long time1 = Long.parseLong(String.valueOf(chickenList.get(0).getTime()));
+                        long time2 = Long.parseLong(String.valueOf(chickenList.get(chickenList.size()-1).getTime()));
                         long daysBetween = 0;
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             LocalDateTime dt1 = LocalDateTime.ofInstant(Instant.ofEpochSecond(time1), ZoneId.systemDefault());
@@ -101,14 +101,14 @@ public class ChartWaterActivity extends AppCompatActivity {
                                 .anchor(Anchor.CENTER_BOTTOM)
                                 .offsetX(0d)
                                 .offsetY(5d)
-                                .format("{%Value}{groupsSeparator: }g");
+                                .format("{%Value}{groupsSeparator: }ml");
 
                         cartesian.animation(true);
-                        cartesian.title("Amount of water chicken consumed in all days");
+                        cartesian.title("Amount of water chicken consumed in " + intent.getStringExtra("selectedDate"));
 
                         cartesian.yScale().minimum(0d);
 
-                        cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: }g");
+                        cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: }ml");
 
                         cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
                         cartesian.interactivity().hoverMode(HoverMode.BY_X);
@@ -117,7 +117,7 @@ public class ChartWaterActivity extends AppCompatActivity {
                         cartesian.yAxis(0).title("Water consumed");
 
                         Label textMarker = cartesian.label(3);
-                        textMarker.text("Total: " + totalsum + "g");
+                        textMarker.text("Total: " + totalsum + "ml");
                         textMarker.fontSize(14d);
                         textMarker.fontColor("#000000");
                         textMarker.offsetX("60%");
@@ -145,9 +145,9 @@ public class ChartWaterActivity extends AppCompatActivity {
                                     ChickenSensor i = new ChickenSensor(chicken.getTime(), chicken.getFood_weight(), chicken.getWater_weight());
                                     int tmp = Math.round(Float.parseFloat(i.getFood_weight()));
                                     data2.add(new ValueDataEntry(i.getFood_weight(),tmp));
-                                    //Log.d("DEBUG", "sum:" + sum[0]);;
-                                    ChickenSensorDAO.insert(i);
-                                    //Log.d("DEBUG", i.getFood_weight());
+                                    //Log.d("HEHEHE", "sum:" + sum[0]);;
+                                    ChickenSensorDAO.insertSensor(i);
+                                    //Log.d("HEHEHE", i.getFood_weight());
                                 }
                                 //totalsum = sum[0];
                             }
@@ -155,7 +155,7 @@ public class ChartWaterActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Log.d("DEBUG","Fail"+e.getMessage());
+                        Log.d("HEHEHE","Fail"+e.getMessage());
                     }
                 });
     }

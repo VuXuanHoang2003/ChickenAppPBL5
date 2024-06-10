@@ -3,6 +3,7 @@ package com.example.chickenapppbl5;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,9 +23,10 @@ public class ChickenItemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Glide.with(this).load(intent.getExtras().getString("predict")).diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.ivChickenpredict);
         Glide.with(this).load(intent.getExtras().getString("infared")).diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.ivChickeninfared);
+        Log.d("HEHEHE", "time" + intent.getExtras().getString("time"));
         binding.tvChickenchicken.setText(intent.getExtras().getString("chicken"));
         binding.tvTemp.setText(intent.getExtras().getString("hctemp"));
-        long unixtime = Long.parseLong(intent.getExtras().getString("time"));
+        long unixtime = Long.parseLong(String.valueOf(intent.getExtras().getInt("time")));
         String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));
         binding.tvTime.setText(date);
     }

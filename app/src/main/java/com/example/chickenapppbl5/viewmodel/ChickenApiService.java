@@ -29,6 +29,9 @@ public class ChickenApiService  {
     public Single<List<ChickenSensor>> getSensors(){
         return api.getSensors();
     }
+    public Single<List<ChickenSensor>> getSensorsTime(int from_time, int to_time){
+        return api.getSensorsTime(from_time, to_time);
+    }
     public Single<String> deleteChicken(String uuid){
         return api.deleteChicken(uuid);
     }

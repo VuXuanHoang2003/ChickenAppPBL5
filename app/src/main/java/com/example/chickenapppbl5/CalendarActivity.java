@@ -135,7 +135,7 @@ public class CalendarActivity extends AppCompatActivity implements ChickenAdapte
             dayText = parts[0];
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             //Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            Intent i = new Intent(this, ChickenDayActivity.class);
+            Intent i = new Intent(this, ChickenDashboardDayActivity.class);
             // Convert the month to a number
             int month = selectedDate.getMonthValue();
             // Toast month

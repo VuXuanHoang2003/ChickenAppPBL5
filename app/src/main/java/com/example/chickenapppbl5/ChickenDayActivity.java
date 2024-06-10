@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -61,6 +62,7 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
         });
         Intent intent = getIntent();
         binding.dayTitle.setText("Chicken Day "+ intent.getStringExtra("day") + "/" + intent.getStringExtra("month") + "/" + intent.getStringExtra("year"));
+        Toast.makeText(this, "Chicken Day "+ intent.getStringExtra("day") + "/" + intent.getStringExtra("month") + "/" + intent.getStringExtra("year"), Toast.LENGTH_SHORT);
         binding.rvChickenDayApp.setLayoutManager(new GridLayoutManager(this,1));
         chickenList = new ArrayList<>();
         chickensAdapter = new ChickenAdapter(chickenList,this);
@@ -78,7 +80,7 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
         // convert unixtime from string to integer
         int from_time = (int) (unixTime / 1000);
         int to_time = from_time + 86400;
-        Log.d("DEBUG", "from_time: " + from_time + " to_time: " + to_time);
+        Log.d("HEHEHE", "from_time: " + from_time + " to_time: " + to_time);
         // check if internet is unavailable
         if (!isInternetAvailable()){
             AsyncTask.execute(new Runnable() {
@@ -88,7 +90,7 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
                     ChickenDAO = appDatabase.chickenDAO();
                     List<ChickenBreed> tempChickenList = new ArrayList<>();
                     tempChickenList = ChickenDAO.getChickensTime(from_time, to_time);
-                    Log.d("DEBUG", "tempChickenList: " + tempChickenList.size());
+                    Log.d("HEHEHE", "tempChickenList: " + tempChickenList.size());
                     //chickenList.addAll(tempChickenList);
                     chickensAdapter = new ChickenAdapter(tempChickenList, ChickenDayActivity.this);
                     binding.rvChickenDayApp.setAdapter(chickensAdapter);
@@ -110,11 +112,11 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
                     .subscribeWith(new DisposableSingleObserver<List<ChickenBreed>>() {
                         @Override
                         public void onSuccess(@NonNull List<ChickenBreed> chickenBreeds) {
-                            Log.d("DEBUG","success");
+                            Log.d("HEHEHE","success");
                             for(ChickenBreed chicken: chickenBreeds){
                                 ChickenBreed i = new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getInfared(), chicken.getLabels(), chicken.getChicken(), chicken.getNon_chicken(), chicken.getTime(), chicken.getHctemp(), chicken.getOther());
                                 //chickenList.add(i);
-                                long unixTime = Long.parseLong(chicken.getTime());
+                                long unixTime = Long.parseLong(String.valueOf(chicken.getTime()));
                                 Date date = new Date(unixTime * 1000L);
                                 Calendar cal = Calendar.getInstance();
                                 cal.setTime(date);
@@ -122,29 +124,29 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
                                     chickenList.add(i);
                                     //ChickenDAO.insert(chicken);
                                 }
-                                //Log.d("DEBUG",i.getUuid());
+                                //Log.d("HEHEHE",i.getUuid());
                                 chickensAdapter.notifyDataSetChanged();
                             }
                             AsyncTask.execute(new Runnable() {
                                 @Override
                                 public void run() {
-                                    appDatabase = AppDatabase.getInstance(getApplicationContext());
-                                    ChickenDAO = appDatabase.chickenDAO();
-                                    for(ChickenBreed chicken:chickenList){
-                                        ChickenDAO.insert(chicken);
-                                        int count = ChickenDAO.countByUuid(chicken.getUuid());
-                                        if (count <= 0) {
-                                            appDatabase.insertData(chicken);
-                                        } else {
-                                            // This chicken is a duplicate
-                                        }
-                                    }
+//                                    appDatabase = AppDatabase.getInstance(getApplicationContext());
+//                                    ChickenDAO = appDatabase.chickenDAO();
+//                                    for(ChickenBreed chicken:chickenList){
+//                                        ChickenDAO.insertChicken(chicken);
+//                                        int count = ChickenDAO.countByUuid(chicken.getUuid());
+//                                        if (count <= 0) {
+//                                            appDatabase.insertChicken(chicken);
+//                                        } else {
+//                                            // This chicken is a duplicate
+//                                        }
+//                                    }
                                 }
                             });
                         }
                         @Override
                         public void onError(@NonNull Throwable e) {
-                            Log.d("DEBUG","Fail"+e.getMessage());
+                            Log.d("HEHEHE","Fail"+e.getMessage());
                         }
                     });
         }

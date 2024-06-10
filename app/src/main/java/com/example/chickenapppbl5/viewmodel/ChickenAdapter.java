@@ -46,7 +46,7 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
         ChickenBreed chickenBreed = chickensList.get(position);
         holder.tvChickenName.setText(String.valueOf(chickenBreed.getId()));
         holder.tvChickenTemp.setText(String.valueOf(chickenBreed.getHctemp()));
-        long unixtime = Long.parseLong(chickenBreed.getTime());
+        long unixtime = Long.parseLong(String.valueOf(chickenBreed.getTime()));
         String date = new java.text.SimpleDateFormat("d/M/yyyy H:mm:ss").format(new java.util.Date(unixtime*1000L));
         holder.tvChickenTime.setText(date);
         //Picasso.get().load(chickenBreed.getUrl()).into(holder.ivChickenImage);

@@ -95,7 +95,7 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
                     ChickenDAO = appDatabase.chickenDAO();
                     List<ChickenBreed> tempChickenList = new ArrayList<>();
                     tempChickenList = ChickenDAO.getHighTemp(34);
-                    Log.d("DEBUG", "tempChickenList: " + tempChickenList.size());
+                    Log.d("HEHEHE", "tempChickenList: " + tempChickenList.size());
                     //chickenList.addAll(tempChickenList);
                     chickensAdapter = new ChickenAdapter(tempChickenList, NotificationsActivity.this);
                     //binding.rvNotify.setAdapter(chickensAdapter);
@@ -117,12 +117,12 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
                     .subscribeWith(new DisposableSingleObserver<List<ChickenBreed>>() {
                         @Override
                         public void onSuccess(@NonNull List<ChickenBreed> chickenBreeds) {
-                            Log.d("DEBUG","success");
+                            Log.d("HEHEHE","success");
                             for(ChickenBreed chicken: chickenBreeds){
                                 ChickenBreed i = new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getInfared(), chicken.getLabels(), chicken.getChicken(), chicken.getNon_chicken(), chicken.getTime(), chicken.getHctemp(), chicken.getOther());
                                     chickenList.add(i);
                                     //ChickenDAO.insert(chicken);
-                                //Log.d("DEBUG",i.getUuid());
+                                //Log.d("HEHEHE",i.getUuid());
                                 chickensAdapter.notifyDataSetChanged();
                             }
                             AsyncTask.execute(new Runnable() {
@@ -131,10 +131,10 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
                                     appDatabase = AppDatabase.getInstance(getApplicationContext());
                                     ChickenDAO = appDatabase.chickenDAO();
                                     for(ChickenBreed chicken:chickenList){
-                                        ChickenDAO.insert(chicken);
+                                        ChickenDAO.insertChicken(chicken);
                                         int count = ChickenDAO.countByUuid(chicken.getUuid());
                                         if (count <= 0) {
-                                            appDatabase.insertData(chicken);
+                                            appDatabase.insertChicken(chicken);
                                         } else {
                                             // This chicken is a duplicate
                                         }
@@ -144,7 +144,7 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
                         }
                         @Override
                         public void onError(@NonNull Throwable e) {
-                            Log.d("DEBUG","Fail"+e.getMessage());
+                            Log.d("HEHEHE","Fail"+e.getMessage());
                         }
                     });
         }

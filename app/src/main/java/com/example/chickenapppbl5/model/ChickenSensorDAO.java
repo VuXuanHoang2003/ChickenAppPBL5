@@ -9,9 +9,13 @@ import java.util.List;
 @Dao
 public interface ChickenSensorDAO {
     @Query("SELECT * FROM ChickenSensor")
-    List<ChickenSensor> getAll();
+    List<ChickenSensor> getAllSensor();
+    @Query("SELECT * FROM ChickenSensor WHERE time BETWEEN :from_time AND :to_time")
+    List<ChickenSensor> getSensorsTime(int from_time, int to_time);
+    @Query("SELECT COUNT(*) FROM ChickenSensor WHERE time = :time")
+    int countByTime(int time);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(ChickenSensor...ChickenSensor);
+    void insertSensor(ChickenSensor...ChickenSensor);
 //    @Query("UPDATE Chicken SET url=:url WHERE id=:id")
 //    void update(int id, String url);
 }

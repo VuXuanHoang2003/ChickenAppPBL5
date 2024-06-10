@@ -1,6 +1,7 @@
 package com.example.chickenapppbl5.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -11,23 +12,25 @@ public class ChickenSensor {
     @SerializedName("time")
     @PrimaryKey()
     @NonNull
-    private String time;
+    private int time;
     @SerializedName("food_weight")
+    @ColumnInfo
     private String food_weight;
     @SerializedName("water_weight")
+    @ColumnInfo
     private String water_weight;
 
-    public ChickenSensor(String time, String food_weight, String water_weight) {
+    public ChickenSensor(int time, String food_weight, String water_weight) {
         this.time = time;
         this.food_weight = food_weight;
         this.water_weight = water_weight;
     }
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 

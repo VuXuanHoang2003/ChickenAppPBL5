@@ -42,7 +42,7 @@ public class ChickenBreed {
 
     @SerializedName("time")
     @ColumnInfo
-    private String time;
+    private int time;
 
     @SerializedName("highest_chicken_temp")
     @ColumnInfo
@@ -53,7 +53,7 @@ public class ChickenBreed {
     private String other;
 
 
-    public ChickenBreed(long id, String uuid, String url, String predict, String infared, String labels, String chicken, String non_chicken,String time, float hctemp, String other) {
+    public ChickenBreed(long id, String uuid, String url, String predict, String infared, String labels, String chicken, String non_chicken, int time, float hctemp, String other) {
         this.id = id;
         this.uuid = uuid;
         this.url = url;
@@ -128,11 +128,11 @@ public class ChickenBreed {
         this.non_chicken = non_chicken;
     }
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 

@@ -19,7 +19,7 @@ public interface ChickenDAO {
     @Query("SELECT COUNT(*) FROM Chicken WHERE uuid = :uuid")
     int countByUuid(String uuid);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(ChickenBreed...Chicken);
+    void insertChicken(ChickenBreed...Chicken);
 //    @Query("UPDATE Chicken SET url=:url WHERE id=:id")
 //    void update(int id, String url);
 }
