@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
         chickenList = new ArrayList<>();
         chickenList2 = new ArrayList<>();
         if (isInternetAvailable()) {
-            apiService.getAll()
+            apiService.getAll(0)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new DisposableSingleObserver<List<ChickenBreed>>() {

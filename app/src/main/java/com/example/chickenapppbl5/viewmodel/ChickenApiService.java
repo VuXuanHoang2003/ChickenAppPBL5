@@ -36,8 +36,8 @@ public class ChickenApiService  {
         return api.deleteChicken(uuid);
     }
 
-    public Single<List<ChickenBreed>> getAll(){
-        return api.getAll();
+    public Single<List<ChickenBreed>> getAll(int limit){
+        return api.getAll(limit);
     }
 
     public Single<List<ChickenBreed>> getHighTemp(float temp) {

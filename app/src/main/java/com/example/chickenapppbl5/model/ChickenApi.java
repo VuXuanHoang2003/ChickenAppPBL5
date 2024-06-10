@@ -11,7 +11,7 @@ public interface ChickenApi {
     @GET("image/search")
     Single<List<ChickenBreed>> getChickens(@Query("from_time") int from_time, @Query("to_time") int to_time);
     @GET("image/search")
-    Single<List<ChickenBreed>> getAll();
+    Single<List<ChickenBreed>> getAll(@Query("limit") int limit);
     @DELETE("image/delete")
     Single<String> deleteChicken(String uuid);
     @GET("sensor")
