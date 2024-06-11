@@ -249,7 +249,10 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                                 cal.setTime(date);
                                 if (cal.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(intent.getStringExtra("day")) && (cal.get(Calendar.MONTH) + 1) == Integer.parseInt(intent.getStringExtra("month"))){
                                     chickenList.add(i);
-                                    totalchickens += Integer.parseInt(chicken.getChicken());
+                                    Log.d("HEHEHE", "chicken: " + i.getChicken() + " totalchickens: " + totalchickens);
+                                    if (Integer.parseInt(i.getChicken()) > totalchickens) {
+                                        totalchickens = Integer.parseInt(i.getChicken());
+                                    }
                                 }
                                 //Log.d("HEHEHE",i.getUuid());
                             }
@@ -340,8 +343,14 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             TextView number = dialogView.findViewById(R.id.et_number);
-                            myRef.child("NumberofChickens").setValue(number.getText().toString());
-                            dialog.dismiss();
+                            if (Integer.parseInt(number.getText().toString().trim()) < totalchickens) {
+                                // if number of chickens is greater than total chickens, show toast
+                                Toast.makeText(ChickenDashboardDayActivity.this, "Number of chickens cannot be smaller than total chickens", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                myRef.child("NumberofChickens").setValue(number.getText().toString());
+                                dialog.dismiss();
+                            }
                         }
                     });
                 }

@@ -120,7 +120,9 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
                             Log.d("HEHEHE","success");
                             for(ChickenBreed chicken: chickenBreeds){
                                 ChickenBreed i = new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getInfared(), chicken.getLabels(), chicken.getChicken(), chicken.getNon_chicken(), chicken.getTime(), chicken.getHctemp(), chicken.getOther());
-                                    chickenList.add(i);
+                                    if (Integer.parseInt(i.getChicken()) > 0) {
+                                        chickenList.add(i);
+                                    }
                                     //ChickenDAO.insert(chicken);
                                 //Log.d("HEHEHE",i.getUuid());
                                 chickensAdapter.notifyDataSetChanged();
@@ -131,7 +133,9 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
                                     appDatabase = AppDatabase.getInstance(getApplicationContext());
                                     ChickenDAO = appDatabase.chickenDAO();
                                     for(ChickenBreed chicken:chickenList){
-                                        ChickenDAO.insertChicken(chicken);
+                                        if (Integer.parseInt(chicken.getChicken()) > 0) {
+                                            ChickenDAO.insertChicken(chicken);
+                                        }
                                         int count = ChickenDAO.countByUuid(chicken.getUuid());
                                         if (count <= 0) {
                                             appDatabase.insertChicken(chicken);
