@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -23,24 +22,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.anychart.AnyChart;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
-import com.anychart.charts.Cartesian;
-import com.anychart.core.cartesian.series.Column;
-import com.anychart.core.ui.Label;
-import com.anychart.enums.Anchor;
-import com.anychart.enums.HoverMode;
-import com.anychart.enums.Position;
-import com.anychart.enums.TooltipPositionMode;
 import com.example.chickenapppbl5.databinding.ActivityChickenDashboardDayBinding;
-import com.example.chickenapppbl5.databinding.ActivityMainBinding;
 import com.example.chickenapppbl5.model.AppDatabase;
 import com.example.chickenapppbl5.model.AppDatabaseChart;
 import com.example.chickenapppbl5.model.ChickenBreed;
 import com.example.chickenapppbl5.model.ChickenDAO;
 import com.example.chickenapppbl5.model.ChickenSensor;
 import com.example.chickenapppbl5.model.ChickenSensorDAO;
-import com.example.chickenapppbl5.viewmodel.ChickenAdapter;
 import com.example.chickenapppbl5.viewmodel.ChickenApiService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,11 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -163,7 +147,8 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                         // save number of chickens
                         binding.tvNumberofchickens.setText("Number of chickens: " + totalchickens);
                         // getvalue of number of chickens from firebase
-                        binding.tvMissingchickens.setText("Number of missing chickens: " + (number - totalchickens));
+                        // settext need internet to get value
+                        binding.tvMissingchickens.setText("Number of missing chickens: " +"No internet available");
                         // save lowest and highest temperature
                         binding.tvLowtemp.setText("Lowest temperature: " + minTemp);
                         binding.tvHightemp.setText("Highest temperature: " + maxtemp);
@@ -249,7 +234,6 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                                 cal.setTime(date);
                                 if (cal.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(intent.getStringExtra("day")) && (cal.get(Calendar.MONTH) + 1) == Integer.parseInt(intent.getStringExtra("month"))){
                                     chickenList.add(i);
-                                    Log.d("HEHEHE", "chicken: " + i.getChicken() + " totalchickens: " + totalchickens);
                                     if (Integer.parseInt(i.getChicken()) > totalchickens) {
                                         totalchickens = Integer.parseInt(i.getChicken());
                                     }
@@ -272,10 +256,10 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                                 Log.d("HEHEHE", "number: " + number + " totalchickens: " + totalchickens);
 
                                 // save lowest and highest temperature
-                                float minTemp = 34;
+                                float minTemp = 100;
                                 float maxtemp = 0;
                                 for (ChickenBreed chicken: chickenList){
-                                    if (chicken.getHctemp() < minTemp){
+                                    if ((chicken.getHctemp() < minTemp) && (chicken.getHctemp() != -1)){
                                         minTemp = chicken.getHctemp();
                                     }
                                     if (chicken.getHctemp() > maxtemp){
@@ -343,14 +327,8 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             TextView number = dialogView.findViewById(R.id.et_number);
-                            if (Integer.parseInt(number.getText().toString().trim()) < totalchickens) {
-                                // if number of chickens is greater than total chickens, show toast
-                                Toast.makeText(ChickenDashboardDayActivity.this, "Number of chickens cannot be smaller than total chickens", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                myRef.child("NumberofChickens").setValue(number.getText().toString());
-                                dialog.dismiss();
-                            }
+                            myRef.child("NumberofChickens").setValue(number.getText().toString());
+                            dialog.dismiss();
                         }
                     });
                 }
@@ -410,7 +388,11 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                     myRef.child("NumberofChickens").setValue("0");
                     number = 0;
                 }
-                binding.tvMissingchickens.setText("Number of missing chickens: " + (number - totalchickens));
+                if (number >= totalchickens) {
+                    binding.tvMissingchickens.setText("Number of missing chickens: " + (number - totalchickens));
+                } else {
+                    binding.tvMissingchickens.setText("Number of excess chickens: " + (totalchickens - number));
+                }
                 //Log.d("HEHEHE", "number: " + number); // This will log the updated value of number
             }
 
