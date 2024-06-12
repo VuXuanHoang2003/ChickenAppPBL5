@@ -83,7 +83,7 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
         });
         binding.rvNotify.setLayoutManager(new GridLayoutManager(this, 1));
         chickenList = new ArrayList<>();
-        chickensAdapter = new ChickenAdapter(chickenList,this);
+        chickensAdapter = new ChickenAdapter(chickenList, -1, this);
         binding.rvNotify.setAdapter(chickensAdapter);
         apiService = new ChickenApiService();
         //check if internet is unavailable
@@ -94,10 +94,10 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
                     appDatabase = AppDatabase.getInstance(getApplicationContext());
                     ChickenDAO = appDatabase.chickenDAO();
                     List<ChickenBreed> tempChickenList = new ArrayList<>();
-                    tempChickenList = ChickenDAO.getHighTemp(34);
+                    tempChickenList = ChickenDAO.getHighTemp(40);
                     Log.d("HEHEHE", "tempChickenList: " + tempChickenList.size());
                     //chickenList.addAll(tempChickenList);
-                    chickensAdapter = new ChickenAdapter(tempChickenList, NotificationsActivity.this);
+                    chickensAdapter = new ChickenAdapter(tempChickenList, -1, NotificationsActivity.this);
                     //binding.rvNotify.setAdapter(chickensAdapter);
                     chickensAdapter.notifyDataSetChanged();
                     runOnUiThread(new Runnable() {

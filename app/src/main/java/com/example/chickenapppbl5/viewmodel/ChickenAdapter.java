@@ -2,6 +2,7 @@ package com.example.chickenapppbl5.viewmodel;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,11 +26,13 @@ import java.util.List;
 
 public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHolder> {
     public static List<ChickenBreed> chickensList;
+    public int value;
     private OnChickenListener onChickenListener;
 
     private ChickenAdapter chickensAdapter;
-    public ChickenAdapter(List<ChickenBreed> chickensList,OnChickenListener onChickenListener){
+    public ChickenAdapter(List<ChickenBreed> chickensList, int value, OnChickenListener onChickenListener){
         this.chickensList=chickensList;
+        this.value=value;
         this.onChickenListener=onChickenListener;
     }
 
@@ -41,9 +45,20 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
         return new ViewHolder(view,onChickenListener);
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ChickenBreed chickenBreed = chickensList.get(position);
+        // compare chickenBreed.getChicken() to value
+        if (value == -1) {
+            holder.cardView.setCardBackgroundColor(Color.WHITE);
+        } else if (Integer.parseInt(chickenBreed.getChicken()) > value) {
+            // paint the border of item red
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#FA7070"));
+        } else if (Integer.parseInt(chickenBreed.getChicken()) == value) {
+            // paint the border of item green
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#7ABA78"));
+        }
         holder.tvChickenName.setText(String.valueOf(chickenBreed.getId()));
         holder.tvChickenTemp.setText(String.valueOf(chickenBreed.getHctemp()));
         long unixtime = Long.parseLong(String.valueOf(chickenBreed.getTime()));
@@ -108,6 +123,7 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public CardView cardView;
         private ImageView ivChickenImage;
         private TextView tvChickenName;
         private TextView tvChickenTemp;
@@ -118,6 +134,7 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
         public ViewHolder(View view,OnChickenListener onChickenListener) {
             super(view);
             // Define click listener for the ViewHolder's View
+            cardView = view.findViewById(R.id.cardView);
             ivChickenImage = view.findViewById(R.id.iv_chickenImage);
             tvChickenName = view.findViewById(R.id.tv_chickenName);
             tvChickenTemp = view.findViewById(R.id.tv_chickenTemp);

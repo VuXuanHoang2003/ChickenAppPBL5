@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -43,7 +44,7 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
         private ChickenDAO ChickenDAO;
         private AppDatabase appDatabase;
 
-        private int month;
+        private int number = 0;
     //Map<String, Integer> monthToNumber = new HashMap<>();
 
     @Override
@@ -61,11 +62,12 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
 
         });
         Intent intent = getIntent();
+        number = Integer.parseInt(intent.getStringExtra("number"));
         binding.dayTitle.setText("Chicken Day "+ intent.getStringExtra("day") + "/" + intent.getStringExtra("month") + "/" + intent.getStringExtra("year"));
         Toast.makeText(this, "Chicken Day "+ intent.getStringExtra("day") + "/" + intent.getStringExtra("month") + "/" + intent.getStringExtra("year"), Toast.LENGTH_SHORT);
         binding.rvChickenDayApp.setLayoutManager(new GridLayoutManager(this,1));
         chickenList = new ArrayList<>();
-        chickensAdapter = new ChickenAdapter(chickenList,this);
+        chickensAdapter = new ChickenAdapter(chickenList, number, this);
         binding.rvChickenDayApp.setAdapter(chickensAdapter);
         apiService = new ChickenApiService();
         // Convert date from intent to unixtime
@@ -92,7 +94,7 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
                     tempChickenList = ChickenDAO.getChickensTime(from_time, to_time);
                     Log.d("HEHEHE", "tempChickenList: " + tempChickenList.size());
                     //chickenList.addAll(tempChickenList);
-                    chickensAdapter = new ChickenAdapter(tempChickenList, ChickenDayActivity.this);
+                    chickensAdapter = new ChickenAdapter(tempChickenList,0, ChickenDayActivity.this);
                     binding.rvChickenDayApp.setAdapter(chickensAdapter);
                     chickensAdapter.notifyDataSetChanged();
                     runOnUiThread(new Runnable() {
@@ -150,7 +152,29 @@ public class ChickenDayActivity extends AppCompatActivity implements ChickenAdap
                         }
                     });
         }
-
+        binding.searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String searchText = binding.searchBar.getText().toString().trim();
+                // View
+                if (searchText.isEmpty()){
+                    chickensAdapter = new ChickenAdapter(chickenList, number, ChickenDayActivity.this);
+                    binding.rvChickenDayApp.setAdapter(chickensAdapter);
+                    chickensAdapter.notifyDataSetChanged();
+                }
+                else {
+                    List<ChickenBreed> tempChickenList = new ArrayList<>();
+                    for (ChickenBreed chicken: chickenList){
+                        if (Integer.parseInt(chicken.getChicken()) == Integer.parseInt(searchText)){
+                            tempChickenList.add(chicken);
+                        }
+                    }
+                    chickensAdapter = new ChickenAdapter(tempChickenList, number,ChickenDayActivity.this);
+                    binding.rvChickenDayApp.setAdapter(chickensAdapter);
+                    chickensAdapter.notifyDataSetChanged();
+                }
+            }
+        });
 //        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(new ItemTouchListener() {
 //            @Override
 //            public void onMove(int oldPosition, int newPosition) {

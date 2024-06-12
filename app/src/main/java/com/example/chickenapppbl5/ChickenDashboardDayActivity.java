@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -288,10 +289,37 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                                 }
                                 binding.tvFood.setText("Total amount of food: " + totalfood + "g");
                                 binding.tvWater.setText("Total amount of water: " + totalwater + "ml");
+                                binding.tvAveragefood.setText("Average amount of food: " + totalfood / totalchickens + "g");
+                                binding.tvAveragewater.setText("Average amount of water: " + totalwater / totalchickens + "ml");
+                                if (totalfood / totalchickens < 150){
+                                    binding.tvNotifyfood.setText("Compared to average food: lacking");
+                                    // set color
+                                    binding.tvNotifyfood.setTextColor(Color.parseColor("#FA7070"));
+                                } else if (totalfood / totalchickens > 250){
+                                    binding.tvNotifyfood.setText("Compared to average food: excess");
+                                    binding.tvNotifyfood.setTextColor(Color.parseColor("#FA7070"));
+                                } else {
+                                    binding.tvNotifyfood.setText("Compared to average food: normal");
+                                    binding.tvNotifyfood.setTextColor(Color.parseColor("#7ABA78"));
+                                }
+                                if (totalwater / totalchickens < 400) {
+                                    binding.tvNotifywater.setText("Compared to average water: lacking");
+                                    binding.tvNotifywater.setTextColor(Color.parseColor("#FA7070"));
+                                } else if (totalwater / totalchickens > 800) {
+                                    binding.tvNotifywater.setText("Compared to average water: excess");
+                                    binding.tvNotifywater.setTextColor(Color.parseColor("#FA7070"));
+                                } else {
+                                    binding.tvNotifywater.setText("Compared to average water: normal");
+                                    binding.tvNotifywater.setTextColor(Color.parseColor("#7ABA78"));
+                                }
                             }
                             else {
                                 binding.tvFood.setText("Total amount of food: --");
                                 binding.tvWater.setText("Total amount of water: --");
+                                binding.tvAveragefood.setText("Average amount of food: --");
+                                binding.tvAveragewater.setText("Average amount of water: --");
+                                binding.tvNotifyfood.setText("Compared to average food: --");
+                                binding.tvNotifywater.setText("Compared to average water: --");
                             }
                             AsyncTask.execute(new Runnable() {
                                 @Override
@@ -344,7 +372,36 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                 i.putExtra("day", intent.getStringExtra("day"));
                 i.putExtra("month", intent.getStringExtra("month"));
                 i.putExtra("year", intent.getStringExtra("year"));
-                startActivity(i);
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot.hasChild("NumberofChickens")) {
+                            String value = snapshot.child("NumberofChickens").getValue().toString();
+                            try {
+                                number = Integer.parseInt(value);
+                            } catch (NumberFormatException e) {
+                                Log.e("ChickenDashboardDayActivity", "NumberofChickens value is not a valid integer: " + value);
+                            }
+                        } else {
+                            myRef.child("NumberofChickens").setValue("0");
+                            number = 0;
+                        }
+                        if (number >= totalchickens) {
+                            binding.tvMissingchickens.setText("Number of missing chickens: " + (number - totalchickens));
+                        } else {
+                            binding.tvMissingchickens.setText("Number of excess chickens: " + (totalchickens - number));
+                        }
+                        i.putExtra("number", String.valueOf(number));
+                        Log.d("HEHEHE", "number: " + number); // This will log the updated value of number
+                        startActivity(i);
+                        //Log.d("HEHEHE", "number: " + number); // This will log the updated value of number
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Log.d("HEHEHE", "Failed to read value.", error.toException());
+                    }
+                });
             }
         });
     }
