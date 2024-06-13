@@ -63,8 +63,7 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/iv_img"/>
+                        android:layout_marginStart="10dp"/>
                     <TextView
                         android:layout_width="260dp"
                         android:layout_height="30dp"
@@ -74,8 +73,7 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/iv_img"/>
+                        android:layout_marginStart="10dp"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -118,7 +116,7 @@
                         android:textSize="16sp"
                         android:layout_marginTop="10dp"
                         android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/iv_img"/>
+                        />
                     <TextView
                         android:layout_width="260dp"
                         android:layout_height="30dp"
@@ -128,8 +126,7 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/iv_img"/>
+                        android:layout_marginStart="10dp"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -172,7 +169,7 @@
                         android:textSize="16sp"
                         android:layout_marginTop="10dp"
                         android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/iv_img"/>
+                        />
                     <TextView
                         android:layout_width="260dp"
                         android:layout_height="30dp"
@@ -182,8 +179,7 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/iv_img"/>
+                        android:layout_marginStart="10dp"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -225,8 +221,7 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/iv_img"/>
+                        android:layout_marginStart="10dp"/>
                     <TextView
                         android:layout_width="260dp"
                         android:layout_height="30dp"
@@ -236,8 +231,7 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/iv_img"/>
+                        android:layout_marginStart="10dp"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -279,8 +273,7 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/iv_img"/>
+                        android:layout_marginStart="10dp"/>
                     <TextView
                         android:layout_width="260dp"
                         android:layout_height="30dp"
@@ -290,15 +283,14 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/iv_img"/>
+                        android:layout_marginStart="10dp"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="400dp"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:id="@+id/cardNotify"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -313,6 +305,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="Notifications"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -329,6 +322,15 @@
                 </TextView>
                 <TextView
                     android:id="@+id/tv_notifywater"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:maxLines="3"
+                    android:text="">
+                </TextView>
+                <TextView
+                    android:id="@+id/tv_notifyownerchickens"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -355,7 +357,7 @@
             android:id="@+id/btn_changenumber"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:text="Click here to change number of chickens"
+            android:text="Click here to change number of owner's chickens"
             android:layout_weight="1"
             app:cornerRadius="15dp"
             android:textSize="20sp"

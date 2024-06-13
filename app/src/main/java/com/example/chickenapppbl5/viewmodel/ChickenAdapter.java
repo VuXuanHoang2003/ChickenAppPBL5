@@ -51,7 +51,7 @@ public class ChickenAdapter extends RecyclerView.Adapter<ChickenAdapter.ViewHold
         ChickenBreed chickenBreed = chickensList.get(position);
         // compare chickenBreed.getChicken() to value
         if (value == -1) {
-            holder.cardView.setCardBackgroundColor(Color.WHITE);
+
         } else if (Integer.parseInt(chickenBreed.getChicken()) > value) {
             // paint the border of item red
             holder.cardView.setCardBackgroundColor(Color.parseColor("#FA7070"));

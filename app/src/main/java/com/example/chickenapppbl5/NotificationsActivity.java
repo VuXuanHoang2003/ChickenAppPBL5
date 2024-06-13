@@ -94,7 +94,7 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
                     appDatabase = AppDatabase.getInstance(getApplicationContext());
                     ChickenDAO = appDatabase.chickenDAO();
                     List<ChickenBreed> tempChickenList = new ArrayList<>();
-                    tempChickenList = ChickenDAO.getHighTemp(40);
+                    tempChickenList = ChickenDAO.getHighTemp(36);
                     Log.d("HEHEHE", "tempChickenList: " + tempChickenList.size());
                     //chickenList.addAll(tempChickenList);
                     chickensAdapter = new ChickenAdapter(tempChickenList, -1, NotificationsActivity.this);
@@ -111,7 +111,7 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
             });
         }
         else{
-            apiService.getHighTemp(34)
+            apiService.getHighTemp(36)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new DisposableSingleObserver<List<ChickenBreed>>() {
@@ -122,6 +122,7 @@ public class NotificationsActivity extends AppCompatActivity implements ChickenA
                                 ChickenBreed i = new ChickenBreed(chicken.getId(),chicken.getUuid(), chicken.getUrl(), chicken.getPredict(), chicken.getInfared(), chicken.getLabels(), chicken.getChicken(), chicken.getNon_chicken(), chicken.getTime(), chicken.getHctemp(), chicken.getOther());
                                     if (Integer.parseInt(i.getChicken()) > 0) {
                                         chickenList.add(i);
+                                        Log.d("HEHEHE", i.getUuid() + i.getHctemp());
                                     }
                                     //ChickenDAO.insert(chicken);
                                 //Log.d("HEHEHE",i.getUuid());

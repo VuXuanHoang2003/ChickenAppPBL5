@@ -83,8 +83,6 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
                 switch (item.getItemId())
                 {
                     case R.id.calendar:
-//                        startActivity(new Intent(getApplicationContext(),CalendarActivity.class));
-//                        overridePendingTransition(0,0);
                         return true;
                     case R.id.chart:
                         startActivity(new Intent(getApplicationContext(),ChartActivity.class));
@@ -127,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
                                         if (count <= 0) {
                                             //appDatabase.insertChicken(chicken);
                                             ChickenDAO.insertChicken(chicken);
-                                            //Log.d("HEHEHE", "inserted");
+                                            Log.d("HEHEHE", "insertedchicken");
                                         } else {
                                             // This chicken is a duplicate
                                         }
@@ -168,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements ChickenAdapter.On
                                         if (count <= 0) {
                                             //appDatabaseChart.insertSensor(chicken);
                                             ChickenSensorDAO.insertSensor(chicken);
-                                            //Log.d("HEHEHE", "inserted");
+                                            Log.d("HEHEHE", "insertedsensor");
                                         } else {
                                             // This sensor is a duplicate
                                         }
