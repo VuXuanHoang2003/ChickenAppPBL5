@@ -1,5 +1,6 @@
 package com.example.chickenapppbl5.viewmodel;
 
+import com.example.chickenapppbl5.model.ChickenAnalyze;
 import com.example.chickenapppbl5.model.ChickenApi;
 import com.example.chickenapppbl5.model.ChickenBreed;
 import com.example.chickenapppbl5.model.ChickenSensor;
@@ -31,6 +32,9 @@ public class ChickenApiService  {
     }
     public Single<List<ChickenSensor>> getSensorsTime(int from_time, int to_time){
         return api.getSensorsTime(from_time, to_time);
+    }
+    public Single<ChickenAnalyze> getAnalyzeTime(int from_time, int to_time){
+        return api.getAnalyzeTime(from_time, to_time);
     }
     public Single<String> deleteChicken(String uuid){
         return api.deleteChicken(uuid);

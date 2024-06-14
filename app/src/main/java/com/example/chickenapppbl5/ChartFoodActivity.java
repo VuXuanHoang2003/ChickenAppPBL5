@@ -25,16 +25,21 @@ import com.anychart.enums.HoverMode;
 import com.anychart.enums.Position;
 import com.anychart.enums.TooltipPositionMode;
 import com.example.chickenapppbl5.model.AppDatabaseChart;
+import com.example.chickenapppbl5.model.ChickenAnalyze;
 import com.example.chickenapppbl5.model.ChickenSensor;
 import com.example.chickenapppbl5.model.ChickenSensorDAO;
 import com.example.chickenapppbl5.viewmodel.ChickenApiService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.observers.DisposableSingleObserver;
@@ -46,7 +51,8 @@ public class ChartFoodActivity extends AppCompatActivity {
     private List<ChickenSensor> chickenList;
     private ChickenSensorDAO ChickenSensorDAO;
     private AppDatabaseChart appDatabaseChart;
-    private int totalsum = 0;
+    private int totalsum = 0, from_time = 0, to_time = 0;
+    private float tmp = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +66,43 @@ public class ChartFoodActivity extends AppCompatActivity {
         Intent intent = getIntent();
         // receive data from ChartActivity
         String message = intent.getStringExtra("selectedDate");
+        // convert selected date to unixtime from_time and to_time
+        try {
+            int[] unixTimes = datetimeToUnixTime(message);
+            from_time = unixTimes[0];
+            to_time = unixTimes[1];
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.d("HEHEHE", "from_time: " + from_time + " to_time: " + to_time);
         apiService = new ChickenApiService();
         chickenList = new ArrayList<>();
         AnyChartView anyChartView = findViewById(R.id.any_chart_view);
         APIlib.getInstance().setActiveAnyChartView(anyChartView);
         Cartesian cartesian = AnyChart.column();
         List<DataEntry> data2 = new ArrayList<>();
+        apiService.getAnalyzeTime(from_time, to_time)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<ChickenAnalyze>() {
+                    @Override
+                    public void onSuccess(@NonNull ChickenAnalyze chickenAnalyzes) {
+                        Log.d("HEHEHE","success");
+                        Log.d("HEHEHE", "from_time: " + from_time + " to_time: " + to_time);
+                        ChickenAnalyze i = new ChickenAnalyze(chickenAnalyzes.getFood_weight(), chickenAnalyzes.getWater_weight());
+                        Log.d("HEHEHE", "food: " + i.getFood_weight() + " water: " + i.getWater_weight());
+                        tmp = i.getFood_weight();
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                            }
+                        });
+                    }
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.d("HEHEHE","Fail"+e.getMessage());
+                    }
+                });
         apiService.getSensors()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -105,7 +142,7 @@ public class ChartFoodActivity extends AppCompatActivity {
                                 .format("{%Value}{groupsSeparator: }g");
 
                         cartesian.animation(true);
-                        cartesian.title("Amount of food chicken consumed in " + intent.getStringExtra("selectedDate"));
+                        cartesian.title("Amount of food chicken puted in " + intent.getStringExtra("selectedDate"));
 
                         cartesian.yScale().minimum(0d);
 
@@ -115,7 +152,7 @@ public class ChartFoodActivity extends AppCompatActivity {
                         cartesian.interactivity().hoverMode(HoverMode.BY_X);
 
                         cartesian.xAxis(0).title("Hour");
-                        cartesian.yAxis(0).title("Food consumed");
+                        cartesian.yAxis(0).title("Food puted in");
 
                         Label textMarker = cartesian.label(3);
                         textMarker.text("Total: " + totalsum + "g");
@@ -125,13 +162,13 @@ public class ChartFoodActivity extends AppCompatActivity {
                         textMarker.offsetY("15%");
                         textMarker.anchor("bottom");
 
-//                        Label textMarker1 = cartesian.label(4);
-//                        textMarker1.text("Average: " + totalsum + "g");
-//                        textMarker1.fontSize(14d);
-//                        textMarker1.fontColor("#000000");
-//                        textMarker1.offsetX("60%");
-//                        textMarker1.offsetY("20%");
-//                        textMarker1.anchor("bottom");
+                        Label textMarker1 = cartesian.label(4);
+                        textMarker1.text("Total consumed: " + tmp + "g");
+                        textMarker1.fontSize(14d);
+                        textMarker1.fontColor("#000000");
+                        textMarker1.offsetX("60%");
+                        textMarker1.offsetY("20%");
+                        textMarker1.anchor("bottom");
 
 
                         anyChartView.setChart(cartesian);
@@ -161,5 +198,21 @@ public class ChartFoodActivity extends AppCompatActivity {
                         Log.d("HEHEHE","Fail"+e.getMessage());
                     }
                 });
+    }
+
+    public static int[] datetimeToUnixTime(String dateStr) throws ParseException {
+        // Define the date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy");
+
+        // Parse the date string into a Date object
+        Date date = dateFormat.parse(dateStr);
+
+        // Get the start of the day in Unix time and convert to int
+        int fromTime = (int) (date.getTime() / 1000);
+
+        // Calculate the end of the day (add 1 day and subtract 1 second) and convert to int
+        int toTime = (int) (fromTime + 86400);
+
+        return new int[]{fromTime, toTime};
     }
 }

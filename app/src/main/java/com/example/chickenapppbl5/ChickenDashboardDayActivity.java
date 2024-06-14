@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chickenapppbl5.databinding.ActivityChickenDashboardDayBinding;
 import com.example.chickenapppbl5.model.AppDatabase;
 import com.example.chickenapppbl5.model.AppDatabaseChart;
+import com.example.chickenapppbl5.model.ChickenAnalyze;
 import com.example.chickenapppbl5.model.ChickenBreed;
 import com.example.chickenapppbl5.model.ChickenDAO;
 import com.example.chickenapppbl5.model.ChickenSensor;
@@ -57,7 +58,7 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
 
     private ChickenApiService apiService;
     private List<ChickenBreed> chickenList;
-    private List<ChickenSensor> chickenList2;
+    private List<ChickenAnalyze> chickenList2, chickenList3;
     private ActivityChickenDashboardDayBinding binding;
     private ChickenDAO ChickenDAO;
     private ChickenSensorDAO ChickenSensorDAO;
@@ -111,6 +112,7 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
         apiService = new ChickenApiService();
         chickenList = new ArrayList<>();
         chickenList2 = new ArrayList<>();
+        chickenList3 = new ArrayList<>();
         if (!isInternetAvailable()){
             AsyncTask.execute(new Runnable() {
                 @Override
@@ -150,6 +152,12 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                         // getvalue of number of chickens from firebase
                         // settext need internet to get value
                         binding.tvMissingchickens.setText("Number of missing chickens: " +"No internet available");
+                        binding.tvFood.setText("Total amount of food: " + "No internet available");
+                        binding.tvWater.setText("Total amount of water: " + "No internet available");
+                        binding.tvAveragefood.setText("Average amount of food: " + "No internet available");
+                        binding.tvAveragewater.setText("Average amount of water: " + "No internet available");
+                        binding.tvNotifyfood.setText("Compared to average food: " + "No internet available");
+                        binding.tvNotifywater.setText("Compared to average water: " + "No internet available");
                         // save lowest and highest temperature
                         binding.tvLowtemp.setText("Lowest temperature: " + minTemp);
                         binding.tvHightemp.setText("Highest temperature: " + maxtemp);
@@ -160,52 +168,6 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                         binding.tvMissingchickens.setText("Number of missing chickens: 0");
                         binding.tvLowtemp.setText("Lowest temperature: --");
                         binding.tvHightemp.setText("Highest temperature: --");
-                    }
-                    if (tempChickenList2.size() != 0) {
-                        for (ChickenSensor chicken: tempChickenList2){
-                            int tmpf = Math.round(Float.parseFloat(chicken.getFood_weight()));
-                            int tmpw = Math.round(Float.parseFloat(chicken.getWater_weight()));
-                            // check if the time is in the same day
-                            long unixTime = Long.parseLong(String.valueOf(chicken.getTime()));
-                            Date date = new Date(unixTime * 1000L);
-                            Calendar cal = Calendar.getInstance();
-                            cal.setTime(date);
-                            if (cal.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(intent.getStringExtra("day")) && (cal.get(Calendar.MONTH) + 1) == Integer.parseInt(intent.getStringExtra("month"))){
-                                totalfood += tmpf;
-                                totalwater += tmpw;
-                            } else {
-                                avgfood += tmpf;
-                                avgwater += tmpw;
-                            }
-                        }
-                        avgfood = avgfood / 7;
-                        avgwater = avgwater / 7;
-                        binding.tvFood.setText("Total amount of food: " + totalfood + "g");
-                        binding.tvWater.setText("Total amount of water: " + totalwater + "ml");
-                        binding.tvAveragefood.setText("Average amount of food: " + avgfood + "g");
-                        binding.tvAveragewater.setText("Average amount of water: " + avgwater + "ml");
-                        // if today cannot check
-                        if (intent.getStringExtra("day").equals(String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))) && intent.getStringExtra("month").equals(String.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1)) && intent.getStringExtra("year").equals(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))) {
-                            binding.tvNotifyfood.setText("Compared to average food: --");
-                            binding.tvNotifyfood.setTextColor(Color.parseColor("#000000"));
-                        } else if (totalfood > avgfood) {
-                            binding.tvNotifyfood.setText("Compared to average food: normal");
-                            binding.tvNotifyfood.setTextColor(Color.parseColor("#7ABA78"));
-                        } else if (totalfood < avgfood && totalfood > avgfood*(totalchickens-1)/totalchickens){
-                            binding.tvNotifyfood.setText("Compared to average food: signs of eating less");
-                            binding.tvNotifyfood.setTextColor(Color.parseColor("#FA7070"));
-                        } else {
-                            binding.tvNotifyfood.setText("Compared to average food: signs of not eating");
-                            binding.tvNotifyfood.setTextColor(Color.parseColor("#FA7070"));
-                        }
-                    }
-                    else {
-                        binding.tvFood.setText("Total amount of food: --");
-                        binding.tvWater.setText("Total amount of water: --");
-                        binding.tvAveragefood.setText("Average amount of food: --");
-                        binding.tvAveragewater.setText("Average amount of water: --");
-                        binding.tvNotifyfood.setText("Compared to average food: --");
-                        binding.tvNotifywater.setText("Compared to average water: --");
                     }
                     // no internet
                     binding.tvNotifyownerchickens.setText("Number of owner's chickens: " + "No internet available");
@@ -220,32 +182,19 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
             });
         }
         else {
-            apiService.getSensorsTime(from_time - 604800, to_time)
+            apiService.getAnalyzeTime(from_time - 518400, to_time - 86400)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableSingleObserver<List<ChickenSensor>>() {
+                    .subscribeWith(new DisposableSingleObserver<ChickenAnalyze>() {
                         @Override
-                        public void onSuccess(@NonNull List<ChickenSensor> chickenSensors) {
+                        public void onSuccess(@NonNull ChickenAnalyze chickenAnalyzes) {
                             Log.d("HEHEHE","success");
-                            for(ChickenSensor chicken: chickenSensors){
-                                ChickenSensor i = new ChickenSensor(chicken.getTime(), chicken.getFood_weight(), chicken.getWater_weight());
-                                chickenList2.add(i);
-                                long unixTime = Long.parseLong(String.valueOf(chicken.getTime()));
-                                Date date = new Date(unixTime * 1000L);
-                                Calendar cal = Calendar.getInstance();
-                                cal.setTime(date);
-                                int tmpf = Math.round(Float.parseFloat(i.getFood_weight()));
-                                int tmpw = Math.round(Float.parseFloat(i.getWater_weight()));
-                                if (cal.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(intent.getStringExtra("day")) && (cal.get(Calendar.MONTH) + 1) == Integer.parseInt(intent.getStringExtra("month"))){
-                                    totalfood += tmpf;
-                                    totalwater += tmpw;
-                                } else {
-                                    avgfood += tmpf;
-                                    avgwater += tmpw;
-                                }
-                            }
-                            Log.d("HEHEHE", "11chickenList: " + chickenList.size() + " chickenList2: " + chickenList2.size());
-
+                            Log.d("HEHEHE", "from_time: " + (from_time - 518400) + " to_time: " + (to_time - 86400) + " " + chickenAnalyzes.getFood_weight() + " " + chickenAnalyzes.getWater_weight());
+                            ChickenAnalyze i = new ChickenAnalyze(chickenAnalyzes.getFood_weight(), chickenAnalyzes.getWater_weight());
+                            Log.d("HEHEHE", "food: " + chickenAnalyzes.getFood_weight() + " water: " + chickenAnalyzes.getWater_weight());
+                            chickenList2.add(i);
+                            avgfood = i.getFood_weight();
+                            avgwater = i.getWater_weight();
                             avgfood = avgfood / 7;
                             avgwater = avgwater / 7;
                             AsyncTask.execute(new Runnable() {
@@ -259,7 +208,31 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                             Log.d("HEHEHE","Fail"+e.getMessage());
                         }
                     });
+            apiService.getAnalyzeTime(from_time, to_time)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new DisposableSingleObserver<ChickenAnalyze>() {
+                        @Override
+                        public void onSuccess(@NonNull ChickenAnalyze chickenAnalyzes) {
+                            Log.d("HEHEHE","success");
+                            Log.d("HEHEHE", "from_time: " + from_time + " to_time: " + to_time);
+                            ChickenAnalyze i = new ChickenAnalyze(chickenAnalyzes.getFood_weight(), chickenAnalyzes.getWater_weight());
+                            Log.d("HEHEHE", "food: " + i.getFood_weight() + " water: " + i.getWater_weight());
+                            chickenList3.add(i);
+                            totalfood = i.getFood_weight();
+                            totalwater = i.getWater_weight();
 
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                }
+                            });
+                        }
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+                            Log.d("HEHEHE","Fail"+e.getMessage());
+                        }
+                    });
             apiService.getChickens(from_time, to_time)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -323,11 +296,11 @@ public class ChickenDashboardDayActivity extends AppCompatActivity {
                             }
                             Log.d("HEHEHE", "33chickenList: " + chickenList.size() + " chickenList2: " + chickenList2.size());
                             Log.d("HEHEHE", avgfood + " " + avgwater + " " + totalfood + " " + totalwater);
-                            if (chickenList2.size() != 0 || totalfood != 0 || totalwater != 0 || avgfood != 0 || avgwater != 0) {
+                            if (totalfood != 0 || totalwater != 0 || avgfood != 0 || avgwater != 0) {
                                 binding.tvFood.setText("Total amount of food: " + totalfood + "g");
                                 binding.tvWater.setText("Total amount of water: " + totalwater + "ml");
-                                binding.tvAveragefood.setText("Average amount of food: " + avgfood + "g");
-                                binding.tvAveragewater.setText("Average amount of water: " + avgwater + "ml");
+                                binding.tvAveragefood.setText("Average amount of food: " + totalfood/totalchickens + "g");
+                                binding.tvAveragewater.setText("Average amount of water: " + totalwater/totalchickens + "ml");
                                 // if today cannot check
                                 if (intent.getStringExtra("day").equals(String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))) && intent.getStringExtra("month").equals(String.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1)) && intent.getStringExtra("year").equals(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))) {
                                     binding.tvNotifyfood.setText("Compared to average food: --");

@@ -18,6 +18,8 @@ public interface ChickenApi {
     Single<List<ChickenSensor>> getSensors();
     @GET("sensor")
     Single<List<ChickenSensor>> getSensorsTime(@Query("from_time") int from_time, @Query("to_time") int to_time);
+    @GET("analyze/consumed")
+    Single<ChickenAnalyze> getAnalyzeTime(@Query("from_time") int from_time, @Query("to_time") int to_time);
     @GET("image/search")
     Single<List<ChickenBreed>> getHighTemp(@Query("minimum_temp") float temp);
 }
